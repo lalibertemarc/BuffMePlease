@@ -1,6 +1,6 @@
 # Buff Me Please
 
-## Unreleased
+## v1.3.0
 
 - **Two undead voices.** Pick **Undead (locked jaw)** or **Undead (jawless)** as your accent on the options page, or with `/buffme accent undead | jawless`. Every line in both, same personality, same joke: "Thenk yuu, Bob Smith! I'll neme my next victury efter y-yuu. Mmf." They're never picked by race, so the Forsaken still speak plainly unless they choose one.
 - **Generated lines (your own install).** `tools/rules_accents.py` fills in the accent translations the local model left out, with the same rules EzAccent speaks with (no model), and writes undead and jawless versions of every generated line.
