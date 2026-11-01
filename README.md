@@ -24,7 +24,9 @@ Orcs, trolls and dwarves don't talk like everyone else, so every one of those li
 
 > Bob Smith! You there. Power Word: Fortitude, on me. I put it to good use. Bloody use. *(bold orc)*
 
-By default your race picks the accent (orc, troll or dwarf; everyone else speaks plainly). Any character can pick another, or none, in Esc > Options > AddOns > Buff Me Please or with `/buffme accent <race | none | orc | troll | dwarf>`: a human who grew up in Ironforge can talk like a dwarf, an orc can speak plainly. Only that one set of lines is kept in memory; the others are dropped at login, so a new accent is heard after a `/reload`.
+By default your race picks the accent (orc, troll or dwarf; everyone else speaks plainly). Any character can pick another, or none, in Esc > Options > AddOns > Buff Me Please or with `/buffme accent <race | none | orc | troll | dwarf | undead | jawless>`: a human who grew up in Ironforge can talk like a dwarf, an orc can speak plainly. Only that one set of lines is kept in memory; the others are dropped at login, so a new accent is heard after a `/reload`.
+
+Two undead voices are there for the choosing, never picked by race: **undead**, a locked jaw that squeezes every vowel ("Thenk yuu, Bob Smith! I'll neme my next victury efter y-yuu. Mmf."), and **jawless**, no jaw at all ("Hhank you, shlrk, Bob Smith! I'll nange ngy nekht hictory ahhter you. Ghhk-hk.").
 
 ## What you ask for
 
@@ -46,7 +48,7 @@ You never ask for a buff you already have, unless it's about to drop (20 minutes
 - **Key bindings** for both under Options > Keybindings > Buff Me Please. They work with the interface hidden.
 - **Steps aside for EzMinion.** On a warlock with EzMinion loaded, Buff Me Please stays off (no icon, bindings or options), since EzMinion already orders your buffs. Other classes are unaffected.
 
-Edit the lines in `Voices.lua` (`{name}`, `{buff}`, and `{me}`/`{my}`, which become "us"/"our" in a group), their accented versions in `VoicesOrc.lua`, `VoicesTroll.lua` and `VoicesDwarf.lua` (dwarves also get `{lad}`: "lad" or "lass"), and the buffs in `Data.lua`.
+Edit the lines in `Voices.lua` (`{name}`, `{buff}`, and `{me}`/`{my}`, which become "us"/"our" in a group), their accented versions in `VoicesOrc.lua`, `VoicesTroll.lua` and `VoicesDwarf.lua` (dwarves also get `{lad}`: "lad" or "lass"), and the buffs in `Data.lua`. `VoicesUndead.lua` and `VoicesJawless.lua` are made from `Voices.lua` by `python tools/rules_accents.py` (with AccentTranslator's `rules.py`, next to this addon in the workspace): rerun it after editing `Voices.lua` instead of editing them.
 
 ## Install
 
@@ -66,7 +68,7 @@ Use `/buffme` or `/bmp`.
 | `/buffme` | Ask your target for a buff |
 | `/buffme thanks` | Thank your target |
 | `/buffme persona [name]` | Show or change your personality |
-| `/buffme accent [race \| none \| orc \| troll \| dwarf]` | Show or change your accent (heard after a `/reload`) |
+| `/buffme accent [race \| none \| orc \| troll \| dwarf \| undead \| jawless]` | Show or change your accent (heard after a `/reload`) |
 | `/buffme say` / `whisper` | Say your lines (default) or whisper them to your target |
 | `/buffme preview` | Sample lines in your personality (only you see them) |
 | `/buffme config` | Open the options |
@@ -76,11 +78,12 @@ Use `/buffme` or `/bmp`.
 
 ## Generated lines (local LLM, for your own install)
 
-`tools/generate.py` has a local model ([Ollama](https://ollama.com), `ollama pull llama3.1:8b`) write more lines in each personality's voice, using the hand-written ones as examples, into `Generated.lua`. Accents are translated from those plain lines, with matching plain/accent pairs from the `Voices*.lua` files as examples, so generate plain first. `tools/new_persona.py` adds a personality of your own (name, description, a few seed lines) and generates its lines. Both need Python 3 and only touch git-ignored files (`Generated.lua`, `tools/generated.json`, `tools/personas.json`), which are never packaged. `/reload` in game to pick them up.
+`tools/generate.py` has a local model ([Ollama](https://ollama.com), `ollama pull llama3.1:8b`) write more lines in each personality's voice, using the hand-written ones as examples, into `Generated.lua`. Accents are translated from those plain lines, with matching plain/accent pairs from the `Voices*.lua` files as examples, so generate plain first. The model leaves out translations that break a rule; `tools/rules_accents.py` fills those in with the rules EzAccent speaks with (no model), and writes the undead and jawless sets whole. `tools/new_persona.py` adds a personality of your own (name, description, a few seed lines) and generates its lines. Both need Python 3 and only touch git-ignored files (`Generated.lua`, `tools/generated.json`, `tools/personas.json`), which are never packaged. `/reload` in game to pick them up.
 
 ```
 python tools/generate.py                         # every personality, plain voice
 python tools/generate.py --accent orc,troll,dwarf # translate the plain lines
+python tools/rules_accents.py                    # fill what the model left out, write undead and jawless
 python tools/new_persona.py                      # add or edit a personality of your own
 python tools/new_persona.py --list | --remove <key>
 ```

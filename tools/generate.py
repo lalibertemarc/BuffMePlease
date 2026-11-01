@@ -160,14 +160,18 @@ def ollama(host, model, system, user, temperature):
 TYPOGRAPHY = {"‘": "'", "’": "'", "“": '"', "”": '"', "…": "...", "–": "-", "—": ", "}
 
 
+def lad(line):
+    """Lad or lass -> {lad}: which one depends on who you're talking to, so it's picked in game."""
+    return re.sub(r"(?<!\{)\b(lad|lass|laddie|lassie)\b(?!\})", "{lad}", line, flags=re.I)
+
+
 def clean(line, kind, accent):
     """The line ready for Lua, or (None, reason) when it breaks a rule."""
     for a, b in TYPOGRAPHY.items():
         line = line.replace(a, b)
     line = re.sub(r"^\s*(?:[-*\d.)]+\s+)?", "", line).strip().strip('"').strip()
     if accent == "dwarf":
-        # "lad" or "lass" depends on who you're talking to: {lad} picks it in game.
-        line = re.sub(r"(?<!\{)\b(lad|lass|laddie|lassie)\b(?!\})", "{lad}", line, flags=re.I)
+        line = lad(line)
     if not line.isascii():
         return None, "non-ascii"
     if "|" in line or "*" in line or "\n" in line or "#" in line:

@@ -607,7 +607,7 @@ local HELP = {
     "/buffme - ask your target for a buff",
     "/buffme thanks - thank your target",
     "/buffme persona [name] - show or change your personality",
-    "/buffme accent [race | none | orc | troll | dwarf] - show or change your accent",
+    "/buffme accent [race | none | orc | troll | dwarf | undead | jawless] - show or change your accent",
     "/buffme say | whisper - say your lines (default) or whisper them to your target",
     "/buffme preview - sample lines in your personality (only you see them)",
     "/buffme lines [mix | only | off] - use the generated lines (Generated.lua) with, instead of, or not at all with the hand-written ones",

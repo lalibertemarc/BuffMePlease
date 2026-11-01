@@ -32,6 +32,8 @@ Orcs, trolls and dwarves don't talk like everyone else, so every line comes in a
 
 > Um, Bob Smith? Sorry tae bother ye... could I maybe have Arcane Intellect? Only if it's nae trouble, lad. *(timid dwarf)*
 
+And two undead voices, for the Forsaken who'd rather not sound like everyone else: a locked jaw ("Um, Bob Smith? Surry tu buther yuu... cuuld I meybe heve Arcane Intellect? Unly if it's nu truuble. Mmf.") or no jaw at all ("Ung, Bob Smith? Shorry to ghohher you... could I ngayghe hahe Arcane Intellect? Only ihh it'sh no troughle. Ghhk-hk."). Those are only ever chosen, never picked by race.
+
 Your race picks the accent by default, but any character can choose another one or none at all. A human raised in Ironforge can sound like a dwarf; an orc can speak the common tongue perfectly well, thank you.
 
 ## What you ask for
@@ -65,7 +67,7 @@ No asking for a buff you already have, unless it's about to wear off. No asking 
 | `/buffme` | Ask your target for a buff |
 | `/buffme thanks` | Thank your target |
 | `/buffme persona [name]` | Show or change your personality |
-| `/buffme accent [race / none / orc / troll / dwarf]` | Show or change your accent (heard after a `/reload`) |
+| `/buffme accent [race / none / orc / troll / dwarf / undead / jawless]` | Show or change your accent (heard after a `/reload`) |
 | `/buffme say` / `whisper` | Say your lines or whisper them to your target |
 | `/buffme preview` | Hear sample lines (only you see them) |
 | `/buffme config` | Open the options |

@@ -28,6 +28,8 @@ ns.DEFAULT_PERSONA = "cheerful"
 -- Accents: orcs, trolls and dwarves say the same lines in their own accent (Voices<Accent>.lua, one
 -- variant for every line in Voices.lua, same order); everyone else speaks plainly. Your race picks it
 -- unless the character chose another (BuffMePleaseCharDB.accent, a key below; /buffme accent or the options).
+-- The two undead voices (VoicesUndead.lua, VoicesJawless.lua, made by tools/rules_accents.py) are never
+-- picked by race, only chosen.
 -- UnitRace's file name -> accent.
 ns.RACE_ACCENT = { Orc = "orc", Troll = "troll", Dwarf = "dwarf" }
 -- Accent choices, in menu order.
@@ -37,6 +39,8 @@ ns.ACCENTS = {
     { key = "orc", label = "Orc", desc = "Lok'tar! Short, blunt, and proud of it." },
     { key = "troll", label = "Troll", desc = "Easy now, mon. Da spirits be watchin'." },
     { key = "dwarf", label = "Dwarf", desc = "By me beard, lad! Your target is a lad or a lass." },
+    { key = "undead", label = "Undead (locked jaw)", desc = "Thenk yuu, nngh. A jaw that won't open squeezes every vowel." },
+    { key = "jawless", label = "Undead (jawless)", desc = "Hhank you. Ghhk. No jaw: no lip sounds, and every s comes out slushy." },
 }
 ns.ACCENT = {}
 for _, a in ipairs(ns.ACCENTS) do ns.ACCENT[a.key] = a end
