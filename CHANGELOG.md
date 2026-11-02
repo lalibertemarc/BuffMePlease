@@ -1,5 +1,9 @@
 # Buff Me Please
 
+## Unreleased
+
+- **Follows EzAccent.** With EzAccent loaded, changing your accent there (`/acc accent`, `/acc thick` or its options page) sets Buff Me Please's to the same one (undead thick is jawless), heard after a `/reload` as usual. `/buffme accent` and the options page still change Buff Me Please's alone.
+
 ## v1.3.0
 
 - **Two undead voices.** Pick **Undead (locked jaw)** or **Undead (jawless)** as your accent on the options page, or with `/buffme accent undead | jawless`. Every line in both, same personality, same joke: "Thenk yuu, Bob Smith! I'll neme my next victury efter y-yuu. Mmf." They're never picked by race, so the Forsaken still speak plainly unless they choose one.

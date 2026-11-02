@@ -26,6 +26,6 @@ read_globals = {
     -- Global APIs
     "GetBuildInfo", "GetSpellInfo", "GetTime", "UnitBuff", "UnitClass", "UnitName", "UnitLevel", "UnitIsUnit", "UnitExists", "UnitIsPlayer",
     "UnitIsFriend", "UnitIsDeadOrGhost", "UnitRace", "UnitSex", "IsInGroup", "SendChatMessage", "GetCVarBool", "IsShiftKeyDown", "InCombatLockdown",
-    -- Other addons' saved variables
-    "CampfireTalesForeverChar",
+    -- Other addons
+    "CampfireTalesForeverChar", "EzAccentAPI",
 }

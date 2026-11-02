@@ -447,6 +447,17 @@ local function SetAccent(key)
     ns.AccentNote()
 end
 
+-- EzAccent's accent changed (EzAccentAPI): the same accent here, undead jawless when thick (the other thick accents
+-- have no voices here). A "race" choice that already speaks it is kept.
+local function FromEzAccent(accent, thick)
+    local key = accent == "undead" and thick and "jawless" or accent
+    if not ns.ACCENT[key] then key = "none" end
+    if ChosenAccent() == (key ~= "none" and key or nil) then return end
+    BuffMePleaseCharDB.accent = key
+    return "BuffMePlease to " .. ns.ACCENT[key].label
+        .. (ChosenAccent() ~= ns.accent and " after a /reload" or "")
+end
+
 ---------------------------------------------------------------------------
 -- Buttons
 ---------------------------------------------------------------------------
@@ -678,6 +689,7 @@ ev:SetScript("OnEvent", function(self, event, unit)
         BuffMePleaseCharDB.persona = BuffMePleaseCharDB.persona or (ns.PERSONA[campfire] and campfire) or ns.DEFAULT_PERSONA
         BuffMePleaseCharDB.accent = ns.ACCENT[BuffMePleaseCharDB.accent] and BuffMePleaseCharDB.accent or ns.DEFAULT_ACCENT
         LoadVoices(true)
+        if EzAccentAPI then EzAccentAPI.OnAccentChanged(FromEzAccent) end
         ApplyPosition()
         ns.BuildSettings()
         local AddFilter = (ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter) or ChatFrame_AddMessageEventFilter
