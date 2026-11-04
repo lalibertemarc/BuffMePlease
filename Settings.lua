@@ -31,6 +31,9 @@ function ns.BuildSettings()
         for _, a in ipairs(ns.ACCENTS) do container:Add(a.key, a.label, a.desc) end
         return container:GetData()
     end, "The accent this character's lines are said in. Each character has their own.")
+    local thick = Settings.RegisterAddOnSetting(category, "BUFFMEPLEASE_THICK", "thick", BuffMePleaseCharDB,
+        Settings.VarType.Boolean, "Thick accent", false)
+    Settings.CreateCheckbox(category, thick, "A thicker accent. For the undead: no jaw at all.")
     Button("Sample lines", "Preview", function() ns.Preview() end,
         "Prints a few lines in this personality and accent to your chat. Only you see them.")
 

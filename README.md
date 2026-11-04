@@ -24,9 +24,11 @@ Orcs, trolls and dwarves don't talk like everyone else, so every line can be sai
 
 > Throm-ka. Good doing business with you, Bob Smith. Lok'tar! *(mercenary orc)*
 
-By default your race picks the accent (orc, troll or dwarf; everyone else speaks plainly). Any character can pick another, or none, in Esc > Options > AddOns > Buff Me Please or with `/buffme accent <race | none | orc | troll | dwarf | undead | jawless>`: a human who grew up in Ironforge can talk like a dwarf, an orc can speak plainly. A new accent is heard on the next line, no `/reload` needed. With [EzAccent](../EzAccent) loaded, changing your accent there sets this one too; `/buffme accent` still sets Buff Me Please's alone.
+By default your race picks the accent (orc, troll or dwarf; everyone else speaks plainly). Any character can pick another, or none, in Esc > Options > AddOns > Buff Me Please or with `/buffme accent <race | none | orc | troll | dwarf | undead>`: a human who grew up in Ironforge can talk like a dwarf, an orc can speak plainly. A new accent is heard on the next line, no `/reload` needed. With [EzAccent](../EzAccent) loaded, changing your accent there sets this one too; `/buffme accent` still sets Buff Me Please's alone.
 
-Two undead voices are there for the choosing, never picked by race: **undead**, a locked jaw that squeezes every vowel ("Thenk yuu, Bob Smith! I'll neme my next victury efter y-yuu. Mmf."), and **jawless**, no jaw at all ("Hhank you, shlrk, Bob Smith! I'll nange ngy nekht hictory ahhter you. Ghhk-hk.").
+**Thick accent** (a checkbox under the accent, or `/buffme thick on | off`) lays it on heavier: more Orcish, deeper Darkspear, broad Scots ("could Ah maybe hae Arcane Intellect?").
+
+**Undead** is there for the choosing, never picked by race: a locked jaw that squeezes every vowel ("Thenk yuu, Bob Smith! I'll neme my next victury efter y-yuu. Mmf."), or with thick on, no jaw at all ("Hhank you, shlrk, Bob Smith! I'll nange ngy nekht hictory ahhter you. Ghhk-hk.").
 
 ## What you ask for
 
@@ -68,7 +70,8 @@ Use `/buffme` or `/bmp`.
 | `/buffme` | Ask your target for a buff |
 | `/buffme thanks` | Thank your target |
 | `/buffme persona [name]` | Show or change your personality |
-| `/buffme accent [race \| none \| orc \| troll \| dwarf \| undead \| jawless]` | Show or change your accent |
+| `/buffme accent [race \| none \| orc \| troll \| dwarf \| undead]` | Show or change your accent |
+| `/buffme thick [on \| off]` | Thicker accent (undead: no jaw at all) |
 | `/buffme say` / `whisper` | Say your lines (default) or whisper them to your target |
 | `/buffme preview` | Sample lines in your personality (only you see them) |
 | `/buffme config` | Open the options |

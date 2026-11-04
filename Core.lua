@@ -221,10 +221,17 @@ local function ChosenAccent()
     if a ~= "none" then return a end
 end
 
--- Thick: undead with no jaw at all (the "jawless" choice); the other accents have no thick choice here.
-local THICK = { jawless = true }
--- The accent engine's name for each choice (Accent.lua speaks "undead", thick or not).
-local ENGINE = { jawless = "undead" }
+-- A thicker accent (BuffMePleaseCharDB.thick): heavier dialect, and for the undead no jaw at all.
+local function Thick()
+    return BuffMePleaseCharDB and BuffMePleaseCharDB.thick or false
+end
+
+-- "Orc", "Dwarf (thick)", "Undead (jawless)", nil for plain.
+local function AccentLabel()
+    local a = ChosenAccent()
+    if not a then return end
+    return ns.ACCENT[a].label .. (Thick() and (a == "undead" and " (jawless)" or " (thick)") or "")
+end
 
 -- A woman hears the accent's "lad" and "bruddah" as "lass" and "sistah" (ns.TO_HER), only where the accent put
 -- them in: words the plain line already has are left alone.
@@ -283,7 +290,7 @@ local function Line(kind, name, buffName, unit)
         for key in text:gmatch("{(%a+)}") do
             if AFTER[key] then grow = grow + #fill[key] - #key - 2 end
         end
-        local said = ns.Speak(ENGINE[accent] or accent, text, THICK[accent] or false, ns.MAX_CHAT - math.max(grow, 0))
+        local said = ns.Speak(accent, text, Thick(), ns.MAX_CHAT - math.max(grow, 0))
         if Sex(unit) == 3 then said = ToHer(said, text) end
         said = Filled(said)
         if #said <= ns.MAX_CHAT then return said end
@@ -295,9 +302,8 @@ end
 function ns.Preview()
     local p = ns.PERSONA[ns.PersonaKey()]
     local sample = buff.KINGS and buff.KINGS.name or "Blessing of Kings"
-    local a = ChosenAccent()
-    a = a and ns.ACCENT[a].label:lower()
-    Print("In a " .. p.label:lower() .. " voice" .. (a and ", with " .. (a:find("^[aeiou]") and "an " or "a ") .. a .. " accent" or "") .. ":")
+    local a = AccentLabel()
+    Print("In a " .. p.label:lower() .. " voice" .. (a and ", accent " .. a or "") .. ":")
     for _, kind in ipairs({ "asks", "asks", "refreshes", "thanks" }) do
         DEFAULT_CHAT_FRAME:AddMessage("  " .. Line(kind, "Bob Smith", sample))
     end
@@ -410,26 +416,53 @@ local function SetPersona(key)
     Print("Personality: " .. ns.PERSONA[key].label .. ". " .. ns.PERSONA[key].desc)
 end
 
--- /buffme accent [key]: shows or sets this character's accent.
+local function Speaking()
+    return " (speaking: " .. (AccentLabel() or "plainly") .. ")."
+end
+
+-- /buffme accent [key]: shows or sets this character's accent, heard on the next line. "jawless" (the old choice)
+-- is undead with thick on.
 local function SetAccent(key)
     key = key:lower()
+    if key == "jawless" then
+        BuffMePleaseCharDB.thick = true
+        key = "undead"
+    end
     if key ~= "" and not ns.ACCENT[key] then
         return Print("Unknown accent. Pick one of: " .. KeyList(ns.ACCENTS) .. ".")
     end
     if key ~= "" then BuffMePleaseCharDB.accent = key end
     local a = ns.ACCENT[ns.AccentKey()]
-    Print("Accent: " .. a.label .. ". " .. a.desc)
-    if key == "" then return Print("Change it with /buffme accent <" .. KeyList(ns.ACCENTS) .. ">.") end
+    Print("Accent: " .. a.label .. ". " .. a.desc .. Speaking())
+    if key == "" then
+        return Print("Change it with /buffme accent <" .. KeyList(ns.ACCENTS) .. ">, /buffme thick on | off.")
+    end
 end
 
--- EzAccent's accent changed (EzAccentAPI): the same accent here, undead jawless when thick (the other accents have
--- no thick choice here). A "race" choice that already speaks it is kept.
+-- /buffme thick [on | off]: a thicker accent, or jawless for the undead. Alone, it switches.
+local function SetThick(arg)
+    arg = arg:lower()
+    if arg == "on" or arg == "" then
+        BuffMePleaseCharDB.thick = arg == "on" or not BuffMePleaseCharDB.thick
+    elseif arg == "off" then
+        BuffMePleaseCharDB.thick = false
+    else
+        return Print("Use /buffme thick on, or /buffme thick off.")
+    end
+    Print("Thick accent " .. (BuffMePleaseCharDB.thick and "on" or "off") .. Speaking())
+end
+
+-- EzAccent's accent changed (EzAccentAPI): the same accent and thickness here. A "race" choice that already speaks
+-- that accent is kept. Returns what it set for EzAccent's "Also set ..." line, nil when nothing changed.
 local function FromEzAccent(accent, thick)
-    local key = accent == "undead" and thick and "jawless" or accent
-    if not ns.ACCENT[key] then key = "none" end
-    if ChosenAccent() == (key ~= "none" and key or nil) then return end
-    BuffMePleaseCharDB.accent = key
-    return "BuffMePlease to " .. ns.ACCENT[key].label
+    local db = BuffMePleaseCharDB
+    local key = ns.ACCENT[accent] and accent ~= "race" and accent or "none"
+    thick = thick and true or false
+    local same = ChosenAccent() == (key ~= "none" and key or nil)
+    if same and (key == "none" or db.thick == thick) then return end
+    if not same then db.accent = key end
+    if key ~= "none" then db.thick = thick end
+    return "BuffMePlease to " .. (AccentLabel() or "plain")
 end
 
 ---------------------------------------------------------------------------
@@ -592,7 +625,8 @@ local HELP = {
     "/buffme - ask your target for a buff",
     "/buffme thanks - thank your target",
     "/buffme persona [name] - show or change your personality",
-    "/buffme accent [race | none | orc | troll | dwarf | undead | jawless] - show or change your accent",
+    "/buffme accent [race | none | orc | troll | dwarf | undead] - show or change your accent",
+    "/buffme thick [on | off] - thicker accent (undead: jawless)",
     "/buffme say | whisper - say your lines (default) or whisper them to your target",
     "/buffme preview - sample lines in your personality (only you see them)",
     "/buffme config - open the options",
@@ -605,6 +639,7 @@ local COMMANDS = {
     thanks  = Thank,
     persona = SetPersona,
     accent  = SetAccent,
+    thick   = SetThick,
     say    = function() SetChannel("SAY") end,
     whisper = function() SetChannel("WHISPER") end,
     preview = function() ns.Preview() end,
@@ -659,7 +694,12 @@ ev:SetScript("OnEvent", function(self, event, unit)
         -- First login: borrow the personality this character already has in Campfire Tales, if any.
         local campfire = CampfireTalesForeverChar and CampfireTalesForeverChar.persona
         BuffMePleaseCharDB.persona = BuffMePleaseCharDB.persona or (ns.PERSONA[campfire] and campfire) or ns.DEFAULT_PERSONA
+        -- 1.3's "jawless" accent is undead with thick on.
+        if BuffMePleaseCharDB.accent == "jawless" then
+            BuffMePleaseCharDB.accent, BuffMePleaseCharDB.thick = "undead", true
+        end
         BuffMePleaseCharDB.accent = ns.ACCENT[BuffMePleaseCharDB.accent] and BuffMePleaseCharDB.accent or ns.DEFAULT_ACCENT
+        BuffMePleaseCharDB.thick = BuffMePleaseCharDB.thick or false
         if EzAccentAPI then EzAccentAPI.OnAccentChanged(FromEzAccent) end
         ApplyPosition()
         ns.BuildSettings()

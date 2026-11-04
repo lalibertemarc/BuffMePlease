@@ -28,8 +28,8 @@ ns.DEFAULT_PERSONA = "cheerful"
 
 -- Accents: Accent.lua (EzAccent's engine) says every line in Voices.lua live, in the accent of your race
 -- (orcs, trolls and dwarves; everyone else speaks plainly) unless the character chose another
--- (BuffMePleaseCharDB.accent, a key below; /buffme accent or the options). The two undead voices are never picked
--- by race, only chosen.
+-- (BuffMePleaseCharDB.accent, a key below; /buffme accent or the options), and .thick makes any of them thicker
+-- (undead: no jaw at all). Undead is never picked by race, only chosen.
 -- UnitRace's file name -> accent.
 ns.RACE_ACCENT = { Orc = "orc", Troll = "troll", Dwarf = "dwarf" }
 -- Accent choices, in menu order.
@@ -39,8 +39,7 @@ ns.ACCENTS = {
     { key = "orc", label = "Orc", desc = "Lok'tar! Short, blunt, and proud of it." },
     { key = "troll", label = "Troll", desc = "Easy now, mon. Da spirits be watchin'." },
     { key = "dwarf", label = "Dwarf", desc = "By me beard, lad! Your target is a lad or a lass." },
-    { key = "undead", label = "Undead (locked jaw)", desc = "Thenk yuu, nngh. A jaw that won't open squeezes every vowel." },
-    { key = "jawless", label = "Undead (jawless)", desc = "Hhank you. Ghhk. No jaw: no lip sounds, and every s comes out slushy." },
+    { key = "undead", label = "Undead", desc = "Thenk yuu, nngh. A locked jaw squeezes every vowel; thick: no jaw at all." },
 }
 ns.ACCENT = {}
 for _, a in ipairs(ns.ACCENTS) do ns.ACCENT[a.key] = a end

@@ -23,9 +23,6 @@ local LONG = { name = "Bartholomewsy Thunderhammer", buff = "Greater Blessing of
 -- Same as Core.lua's AFTER: put in after the accent.
 local AFTER = { name = true, buff = true }
 local function Count(s, key) return select(2, s:gsub("{" .. key .. "}", "")) end
--- Same as Core.lua's THICK and ENGINE.
-local THICK = { jawless = true }
-local ENGINE = { jawless = "undead" }
 
 local lines = 0
 for _, p in ipairs(ns.PERSONAS) do
@@ -54,7 +51,7 @@ for key in pairs(ns.VOICES) do
     if not ns.PERSONA[key] or key == "mixed" then Fail("lines for an unknown personality: " .. key) end
 end
 
--- Every accent the options offer ("race" picks one of them).
+-- Every accent the options offer ("race" picks one of them), light and thick.
 math.randomseed(1)
 local said = 0
 for _, a in ipairs(ns.ACCENTS) do
@@ -67,8 +64,9 @@ for _, a in ipairs(ns.ACCENTS) do
                     local function Final(s) return (s:gsub("{(%a+)}", function(k) if AFTER[k] then return LONG[k] end end)) end
                     local grow = 0
                     for k in filled:gmatch("{(%a+)}") do grow = grow + #LONG[k] - #k - 2 end
-                    for n = 1, 3 do
-                        local out = ns.Speak(ENGINE[a.key] or a.key, filled, THICK[a.key] or false, ns.MAX_CHAT - math.max(grow, 0))
+                    for n = 1, 4 do
+                        local thick = n > 2 -- light twice, thick twice
+                        local out = ns.Speak(a.key, filled, thick, ns.MAX_CHAT - math.max(grow, 0))
                         said = said + 1
                         for k in pairs(AFTER) do
                             if Count(out, k) ~= Count(filled, k) then Fail(where .. ": {" .. k .. "} lost: " .. out) end
@@ -76,7 +74,7 @@ for _, a in ipairs(ns.ACCENTS) do
                         local final = Final(out)
                         if final:find("[{}]") then Fail(where .. ": stray brace: " .. final) end
                         if #final > ns.MAX_CHAT and #Final(filled) > ns.MAX_CHAT then Fail(where .. ": too long even plain") end
-                        if show and n == 1 and i == 1 then print(where .. "  " .. final) end
+                        if show and (n == 1 or n == 3) and i == 1 then print(where .. (thick and " (thick)" or "") .. "  " .. final) end
                     end
                 end
             end
