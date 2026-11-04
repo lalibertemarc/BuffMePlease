@@ -80,4 +80,4 @@ Use `/buffme` or `/bmp`.
 
 ## Tools
 
-`tools/examples/` keeps the old hand-written orc, troll and dwarf lines, frozen next to the plain `Voices.lua` they were written from, as plain -> accent example pairs for the local-LLM tools that borrow them: `tools/examples.py` (used by EzBlessings' `tools/accent.py`) and AccentTranslator's `accent.py --ai`. Not packaged.
+`tools/examples/` keeps the old hand-written orc, troll and dwarf lines, frozen next to the plain `Voices.lua` they were written from, as plain -> accent example pairs for the local-LLM tools that borrow them: `tools/examples.py` and AccentTranslator's `accent.py --ai`. Not packaged.

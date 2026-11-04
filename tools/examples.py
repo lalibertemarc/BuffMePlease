@@ -5,7 +5,7 @@ dwarf lines left the addon. They're kept here, frozen, in tools/examples/: Voice
 Voices.lua they were written from (same personalities, kinds and order, so they zip into plain -> accent pairs).
 Never packaged (.pkgmeta ignores tools/).
 
-Used by EzBlessings' tools/accent.py (import examples as g: its Ollama call, accent descriptions and dwarf pairs).
+EzBlessings' tools/accent.py used to import it (removed 2026-11-04, EzBlessings now speaks its accents live).
 AccentTranslator's accent.py reads the same files itself, and its ACCENT_STYLE is a copy of the one here.
 """
 import json
