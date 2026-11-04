@@ -11,13 +11,7 @@
 
 Data.lua
 Voices.lua
-VoicesOrc.lua
-VoicesTroll.lua
-VoicesDwarf.lua
-VoicesUndead.lua
-VoicesJawless.lua
-#@do-not-package@
-Generated.lua
-#@end-do-not-package@
+AccentRules.lua
+Accent.lua
 Core.lua
 Settings.lua

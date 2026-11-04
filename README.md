@@ -10,21 +10,21 @@ A WoW Forever and Classic Era roleplay addon. Target a friendly player whose cla
 
 ## Personalities
 
-Bold, Cheerful, Wise, Gruff, Roguish, Mystic, Scholarly and Timid (the same set as Campfire Tales Forever; a character's Campfire Tales personality is picked up on first login), plus Noble, Charming, Devout and Mercenary, or "A bit of everything". Each has 20 asks, 10 refreshes and 16 thank-yous: 552 lines in all, times four with the accents below.
+Bold, Cheerful, Wise, Gruff, Roguish, Mystic, Scholarly and Timid (the same set as Campfire Tales Forever; a character's Campfire Tales personality is picked up on first login), plus Noble, Charming, Devout, Mercenary and Master (everyone is a servant, and the buff was due an hour ago), or "A bit of everything". Each has 20 asks, 10 refreshes and 16 thank-yous: 598 lines in all, each one said in any of the accents below.
 
 Pick it per character in Esc > Options > AddOns > Buff Me Please (with a Preview button), by right-clicking the icon, or with `/buffme persona <name>`.
 
 ## Accents
 
-Orcs, trolls and dwarves don't talk like everyone else, so every one of those lines also comes in an orc, troll and dwarf version. Same personality and same joke, said their way:
+Orcs, trolls and dwarves don't talk like everyone else, so every line can be said in an orc, troll or dwarf accent. Same personality and same joke, said their way:
 
-> Bob Smith, what be ya rate for some Blessing of Kings? Me good for it, mon. *(mercenary troll)*
+> Bob Smith, what be ya rate for a Blessing of Kings, mon? I be good for it. *(mercenary troll)*
 
-> Um, Bob Smith? Sorry tae bother ye... could I maybe have Arcane Intellect? Only if it's nae trouble, lad. *(timid dwarf)*
+> Um, Bob Smith? Sorry tae bother ye... could I maybe have Arcane Intellect? Only if it's nae trouble. *(timid dwarf)*
 
-> Bob Smith! You there. Power Word: Fortitude, on me. I put it to good use. Bloody use. *(bold orc)*
+> Throm-ka. Good doing business with you, Bob Smith. Lok'tar! *(mercenary orc)*
 
-By default your race picks the accent (orc, troll or dwarf; everyone else speaks plainly). Any character can pick another, or none, in Esc > Options > AddOns > Buff Me Please or with `/buffme accent <race | none | orc | troll | dwarf | undead | jawless>`: a human who grew up in Ironforge can talk like a dwarf, an orc can speak plainly. Only that one set of lines is kept in memory; the others are dropped at login, so a new accent is heard after a `/reload`. With [EzAccent](../EzAccent) loaded, changing your accent there sets this one too; `/buffme accent` still sets Buff Me Please's alone.
+By default your race picks the accent (orc, troll or dwarf; everyone else speaks plainly). Any character can pick another, or none, in Esc > Options > AddOns > Buff Me Please or with `/buffme accent <race | none | orc | troll | dwarf | undead | jawless>`: a human who grew up in Ironforge can talk like a dwarf, an orc can speak plainly. A new accent is heard on the next line, no `/reload` needed. With [EzAccent](../EzAccent) loaded, changing your accent there sets this one too; `/buffme accent` still sets Buff Me Please's alone.
 
 Two undead voices are there for the choosing, never picked by race: **undead**, a locked jaw that squeezes every vowel ("Thenk yuu, Bob Smith! I'll neme my next victury efter y-yuu. Mmf."), and **jawless**, no jaw at all ("Hhank you, shlrk, Bob Smith! I'll nange ngy nekht hictory ahhter you. Ghhk-hk.").
 
@@ -48,7 +48,7 @@ You never ask for a buff you already have, unless it's about to drop (20 minutes
 - **Key bindings** for both under Options > Keybindings > Buff Me Please. They work with the interface hidden.
 - **Steps aside for EzMinion.** On a warlock with EzMinion loaded, Buff Me Please stays off (no icon, bindings or options), since EzMinion already orders your buffs. Other classes are unaffected.
 
-Edit the lines in `Voices.lua` (`{name}`, `{buff}`, and `{me}`/`{my}`, which become "us"/"our" in a group), their accented versions in `VoicesOrc.lua`, `VoicesTroll.lua` and `VoicesDwarf.lua` (dwarves also get `{lad}`: "lad" or "lass"), and the buffs in `Data.lua`. `VoicesUndead.lua` and `VoicesJawless.lua` are made from `Voices.lua` by `python tools/rules_accents.py` (with AccentTranslator's `rules.py`, next to this addon in the workspace): rerun it after editing `Voices.lua` instead of editing them.
+Edit the lines in `Voices.lua` (`{name}`, `{buff}`, and `{me}`/`{my}`, which become "us"/"our" in a group) and the buffs in `Data.lua`; `lua tests/lines.lua` checks them in every accent. The accents are said live from those lines by `Accent.lua`, a copy of [EzAccent](../EzAccent)'s engine, with the rules in `AccentRules.lua` (generated from AccentTranslator's `rules.py` by EzAccent's `tools/gen_rules.py --out ../BuffMePlease/AccentRules.lua`; don't edit it by hand). Your target's name and the buff are put in after the accent, so they're never respelled, and a woman hears a dwarf's "lad" as "lass". A line the accent would push past 255 characters goes out plain.
 
 ## Install
 
@@ -68,24 +68,13 @@ Use `/buffme` or `/bmp`.
 | `/buffme` | Ask your target for a buff |
 | `/buffme thanks` | Thank your target |
 | `/buffme persona [name]` | Show or change your personality |
-| `/buffme accent [race \| none \| orc \| troll \| dwarf \| undead \| jawless]` | Show or change your accent (heard after a `/reload`) |
+| `/buffme accent [race \| none \| orc \| troll \| dwarf \| undead \| jawless]` | Show or change your accent |
 | `/buffme say` / `whisper` | Say your lines (default) or whisper them to your target |
 | `/buffme preview` | Sample lines in your personality (only you see them) |
 | `/buffme config` | Open the options |
 | `/buffme lock` / `unlock` | Lock or unlock the button (Shift-drag always moves it) |
 | `/buffme reset` | Reset the button position |
-| `/buffme lines [mix \| only \| off]` | With generated lines (below): use them with, instead of, or not at all with the hand-written ones |
 
-## Generated lines (local LLM, for your own install)
+## Tools
 
-`tools/generate.py` has a local model ([Ollama](https://ollama.com), `ollama pull llama3.1:8b`) write more lines in each personality's voice, using the hand-written ones as examples, into `Generated.lua`. Accents are translated from those plain lines, with matching plain/accent pairs from the `Voices*.lua` files as examples, so generate plain first. The model leaves out translations that break a rule; `tools/rules_accents.py` fills those in with the rules EzAccent speaks with (no model), and writes the undead and jawless sets whole. `tools/new_persona.py` adds a personality of your own (name, description, a few seed lines) and generates its lines. Both need Python 3 and only touch git-ignored files (`Generated.lua`, `tools/generated.json`, `tools/personas.json`), which are never packaged. `/reload` in game to pick them up.
-
-```
-python tools/generate.py                         # every personality, plain voice
-python tools/generate.py --accent orc,troll,dwarf # translate the plain lines
-python tools/rules_accents.py                    # fill what the model left out, write undead and jawless
-python tools/new_persona.py                      # add or edit a personality of your own
-python tools/new_persona.py --list | --remove <key>
-```
-
-To say any line of your own in an accent, see AccentTranslator (next to this addon in the workspace), which uses the same example pairs.
+`tools/examples/` keeps the old hand-written orc, troll and dwarf lines, frozen next to the plain `Voices.lua` they were written from, as plain -> accent example pairs for the local-LLM tools that borrow them: `tools/examples.py` (used by EzBlessings' `tools/accent.py`) and AccentTranslator's `accent.py --ai`. Not packaged.

@@ -2,7 +2,8 @@
 -- asks: you ask your target for a buff. refreshes: the buff they can give you is about to drop
 -- (ns.REFRESH_THRESHOLD). thanks: the thank-you button. One line is picked at random, never the
 -- same twice in a row. Placeholders: {name}, {buff} (asks and refreshes), {me} and {my} ("us" and
--- "our" in a group). Never start a line with {me} or {my} (it would come out in lower case).
+-- "our" in a group). Never start a line with {me} or {my} (it would come out in lower case). Accents are
+-- said live from these lines (Accent.lua), so a line added here speaks in every accent.
 local _, ns = ...
 
 ns.VOICES = {
@@ -663,6 +664,60 @@ mercenary = {
         "{name}, solid work for no pay. You should charge.",
         "Thanks, {name}. If anyone wants you dead, I'll quote them high.",
         "{name}, you've got credit with me now. Don't spend it all at once.",
+    },
+},
+master = {
+    asks = {
+        "{name}, you should have given {me} {buff} an hour ago!",
+        "{name}, I need {buff}. Now!",
+        "{name}, why haven't you given {me} {buff} yet?",
+        "Cast {buff} on {me}, {name}. Now.",
+        "You're going to give {me} {buff}, aren't you, {name}?",
+        "{name}, where's {my} {buff}? I needed it yesterday.",
+        "{name}, get {me} {buff}. You're wasting my time.",
+        "{name}, give {me} {buff} before I get angry.",
+        "{name}, you owe {me} {buff}. Consider it rent.",
+        "{name}, I expected {buff} on {me} by now.",
+        "{name}, what's the holdup on {my} {buff}?",
+        "{name}, don't tell me you forgot {my} {buff}!",
+        "{name}, how many times must I remind you? {buff}.",
+        "{name}, no more excuses. {buff}, now.",
+        "{name}, you're taking too long. {buff}!",
+        "{name}, I don't keep you around to stand there. {buff}!",
+        "{name}, everything here belongs to me. That includes your {buff}. Hand it over.",
+        "{name}, kneel later. {buff} first.",
+        "{name}, your master lacks {buff}. Fix that.",
+        "{name}, give {me} {buff} and let's get moving.",
+    },
+    refreshes = {
+        "{name}, serve your master and refresh {my} {buff} now!",
+        "{name}, I order you to fetch {me} a fresh {buff}!",
+        "{name}, refresh {my} {buff} before I lose patience!",
+        "{name}, {my} {buff} is waning. Cast it anew, immediately!",
+        "{name}, I command you to restore {my} {buff} to its former glory!",
+        "{name}, {my} {buff} is fading, and your master does not wait.",
+        "{name}, I tire of your sluggish pace. {buff}, again, at once!",
+        "{name}, {my} {buff} is nearly gone. Do not make me question your loyalty.",
+        "{name}, the time for hesitation is past. {buff} again, and obey.",
+        "{name}, did I say you could let {my} {buff} run out? Fix it.",
+    },
+    thanks = {
+        "Your master is pleased, {name}. You will not get whipped tonight.",
+        "{name}, this is how to get in the good graces of your master.",
+        "If I had a treat to give, I would give it to you, {name}.",
+        "Well done, {name}. You'll be rewarded soon enough.",
+        "Your timing is acceptable, {name}. For now.",
+        "That's more like it, {name}. You're learning.",
+        "Adequate spellcasting, {name}. It has been noted.",
+        "You managed not to mess it up, {name}. Congratulations.",
+        "I am pleased with your partial competence, {name}.",
+        "A good start, {name}. Don't get complacent.",
+        "Don't think this means you're free, {name}. Not yet.",
+        "A minor success, {name}. You might get to live.",
+        "You've done something right, {name}. For once.",
+        "Sufficient, {name}. For now.",
+        "I see you can cast a simple spell, {name}. Progress.",
+        "Keep it up, {name}. That's what you're here for.",
     },
 },
 }

@@ -1,6 +1,7 @@
 std = "lua51"
 max_line_length = false
 self = false
+exclude_files = { "tests/" }
 
 globals = {
     "BuffMePleaseDB",

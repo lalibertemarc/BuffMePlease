@@ -1,5 +1,5 @@
 .release/
-# Lines and personalities from tools/generate.py and tools/new_persona.py. Personal: never commit or package.
+# Left over from the retired tools/generate.py and tools/new_persona.py (personal, no longer loaded).
 Generated.lua
 tools/generated.json
 tools/personas.json

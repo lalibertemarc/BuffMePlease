@@ -191,15 +191,6 @@ local function Print(msg)
     DEFAULT_CHAT_FRAME:AddMessage("|cffe6b34dBuff Me Please|r: " .. msg)
 end
 
--- Personalities of your own (tools/new_persona.py), from Generated.lua: listed before "mixed".
-for _, p in ipairs(ns.CUSTOM_PERSONAS or {}) do
-    if not ns.PERSONA[p.key] then
-        table.insert(ns.PERSONAS, #ns.PERSONAS, p)
-        ns.PERSONA[p.key] = p
-    end
-end
-ns.CUSTOM_PERSONAS = nil
-
 -- This character's personality key (ns.PERSONA), "mixed" included.
 function ns.PersonaKey()
     local p = BuffMePleaseCharDB and BuffMePleaseCharDB.persona
@@ -230,92 +221,86 @@ local function ChosenAccent()
     if a ~= "none" then return a end
 end
 
--- The other accents are gone from memory, so a new choice is only heard after a /reload.
-function ns.AccentNote()
-    if ChosenAccent() ~= ns.accent then Print("Your new accent is heard after a /reload.") end
+-- Thick: undead with no jaw at all (the "jawless" choice); the other accents have no thick choice here.
+local THICK = { jawless = true }
+-- The accent engine's name for each choice (Accent.lua speaks "undead", thick or not).
+local ENGINE = { jawless = "undead" }
+
+-- A woman hears the accent's "lad" and "bruddah" as "lass" and "sistah" (ns.TO_HER), only where the accent put
+-- them in: words the plain line already has are left alone.
+local function HasWord(s, w)
+    return s:lower():find("%f[%a]" .. w .. "%f[%A]") ~= nil
 end
 
--- Login: your accent (if any) becomes ns.VOICES, and every other accent is
--- dropped, so only one set of lines stays in memory. Nothing to keep at all when standing down.
-local function LoadVoices(keep)
-    local accent = keep and ChosenAccent()
-    if accent and ns.ACCENT_VOICES[accent] then
-        ns.VOICES = ns.ACCENT_VOICES[accent]
-        ns.accent = accent
-    end
-    -- Generated.lua (tools/generate.py, your install only): keep the set for your accent, plus the
-    -- plain one for personalities not generated in your accent (yet).
-    local gen = keep and ns.GENERATED
-    if gen then
-        ns.GEN = gen[ns.accent or "plain"] or {}
-        for k, v in pairs(gen.plain or {}) do
-            if ns.GEN[k] == nil then ns.GEN[k] = v end
+local function Cap(s) return s:sub(1, 1):upper() .. s:sub(2) end
+
+local function ToHer(said, text)
+    for _, w in ipairs(ns.TO_HER) do
+        local typed = false
+        for _, t in ipairs(w.typed) do typed = typed or HasWord(text, t) end
+        if not typed then
+            if HasWord(said, w.she) then said = said:gsub(", " .. w.he .. "%f[%A]", "") end
+            said = said:gsub("%f[%a]" .. w.he .. "%f[%A]", w.she):gsub("%f[%a]" .. Cap(w.he) .. "%f[%A]", Cap(w.she))
         end
     end
-    if not keep then ns.VOICES = nil end
-    ns.ACCENT_VOICES, ns.GENERATED = nil, nil
-    collectgarbage()
+    return said
 end
 
--- The hand-written lines with the generated ones, per BuffMePleaseDB.lines: "mix" both, "only" the
--- generated ones, "off" hand-written only. A pool with only one of them (personalities of your own
--- have no hand-written lines) uses that one whatever the setting.
-local NONE = {}
-local merged = {} -- hand-written lines table -> both
-local function WithGenerated(hand, gen)
-    hand, gen = hand or NONE, gen or NONE
-    local mode = BuffMePleaseDB.lines
-    if #gen == 0 or (mode == "off" and #hand > 0) then return hand end
-    if mode == "only" or #hand == 0 then return gen end
-    if not merged[hand] then
-        local all = {}
-        for _, l in ipairs(hand) do all[#all + 1] = l end
-        for _, l in ipairs(gen) do all[#all + 1] = l end
-        merged[hand] = all
-    end
-    return merged[hand]
+-- 3 when the unit is a woman, 2 a man, nil unknown or hidden.
+local function Sex(unit)
+    local sex = unit and UnitSex(unit)
+    if sex and not issecret(sex) and (sex == 2 or sex == 3) then return sex end
 end
 
 -- Lines of that kind ("asks", "refreshes", "thanks") for the speaker.
 local function Lines(kind, persona)
-    local gen = ns.GEN and ns.GEN[persona]
-    local lines = WithGenerated(ns.VOICES[persona] and ns.VOICES[persona][kind], gen and gen[kind])
-    -- A personality of your own with nothing generated for this kind speaks in the default one.
-    if #lines == 0 then lines = ns.VOICES[ns.DEFAULT_PERSONA][kind] end
+    local lines = ns.VOICES[persona] and ns.VOICES[persona][kind]
+    if not lines or #lines == 0 then lines = ns.VOICES[ns.DEFAULT_PERSONA][kind] end
     return lines
-end
-
--- "lad" or "lass" for the unit, "friend" when its sex is unknown or hidden.
-local function Lad(unit)
-    local sex = unit and UnitSex(unit)
-    return sex and not issecret(sex) and ns.LAD[sex] or ns.LAD_UNKNOWN
 end
 
 local lastPick = {} -- lines table -> index said last time
 
--- A random line of that kind (not the one said last time), with {name}, {buff}, {me}, {my} and {lad}
--- (from unit, your target) filled in.
+-- Placeholders put in after the accent, so they're never respelled (and the link filter finds the name as is).
+local AFTER = { name = true, buff = true }
+
+-- A random line of that kind (not the one said last time) in your accent: {me} and {my} are filled in before the
+-- accent, {name} and {buff} after it. The plain line when the accent would pass the chat limit. unit: your target,
+-- for "lad" or "lass".
 local function Line(kind, name, buffName, unit)
     local lines = Lines(kind, Speaker())
     local i = math.random(#lines)
     if #lines > 1 and i == lastPick[lines] then i = i % #lines + 1 end
     lastPick[lines] = i
     local group = IsInGroup() and "group" or "solo"
-    local fill = { name = name, buff = buffName or "", me = ns.ME[group], my = ns.MY[group], lad = Lad(unit) }
-    -- Function replacement, so a "%" in a name can't break gsub.
-    return (lines[i]:gsub("{(%a+)}", function(key) return fill[key] end))
+    local fill = { name = name, buff = buffName or "", me = ns.ME[group], my = ns.MY[group] }
+    -- Function replacements, so a "%" in a name can't break gsub.
+    local text = lines[i]:gsub("{(%a+)}", function(key) if not AFTER[key] then return fill[key] end end)
+    local function Filled(s) return (s:gsub("{(%a+)}", function(key) if AFTER[key] then return fill[key] end end)) end
+    local accent = ChosenAccent()
+    if accent then
+        local grow = 0
+        for key in text:gmatch("{(%a+)}") do
+            if AFTER[key] then grow = grow + #fill[key] - #key - 2 end
+        end
+        local said = ns.Speak(ENGINE[accent] or accent, text, THICK[accent] or false, ns.MAX_CHAT - math.max(grow, 0))
+        if Sex(unit) == 3 then said = ToHer(said, text) end
+        said = Filled(said)
+        if #said <= ns.MAX_CHAT then return said end
+    end
+    return Filled(text)
 end
 
 -- A few sample lines in your chat only, for the options page.
 function ns.Preview()
     local p = ns.PERSONA[ns.PersonaKey()]
     local sample = buff.KINGS and buff.KINGS.name or "Blessing of Kings"
-    local a = ns.accent
+    local a = ChosenAccent()
+    a = a and ns.ACCENT[a].label:lower()
     Print("In a " .. p.label:lower() .. " voice" .. (a and ", with " .. (a:find("^[aeiou]") and "an " or "a ") .. a .. " accent" or "") .. ":")
     for _, kind in ipairs({ "asks", "asks", "refreshes", "thanks" }) do
         DEFAULT_CHAT_FRAME:AddMessage("  " .. Line(kind, "Bob Smith", sample))
     end
-    ns.AccentNote()
 end
 
 ---------------------------------------------------------------------------
@@ -379,15 +364,6 @@ local function SetChannel(channel)
     Print(channel == "WHISPER" and "Lines are now whispered to your target." or "Lines are now said in /say.")
 end
 
-local LINE_MODES = { mix = "hand-written and generated", only = "generated only", off = "hand-written only" }
-
-local function SetLines(mode)
-    if not ns.GEN then return Print("No generated lines for your voice. Run tools/generate.py, then /reload.") end
-    mode = mode:lower()
-    if LINE_MODES[mode] then BuffMePleaseDB.lines = mode end
-    Print("Lines: " .. LINE_MODES[BuffMePleaseDB.lines] .. ". Change with /buffme lines mix | only | off.")
-end
-
 local function Ask()
     if not ValidTarget("target") then return Print("Target a friendly player to ask for a buff.") end
     local r = Evaluate("target")
@@ -444,18 +420,16 @@ local function SetAccent(key)
     local a = ns.ACCENT[ns.AccentKey()]
     Print("Accent: " .. a.label .. ". " .. a.desc)
     if key == "" then return Print("Change it with /buffme accent <" .. KeyList(ns.ACCENTS) .. ">.") end
-    ns.AccentNote()
 end
 
--- EzAccent's accent changed (EzAccentAPI): the same accent here, undead jawless when thick (the other thick accents
--- have no voices here). A "race" choice that already speaks it is kept.
+-- EzAccent's accent changed (EzAccentAPI): the same accent here, undead jawless when thick (the other accents have
+-- no thick choice here). A "race" choice that already speaks it is kept.
 local function FromEzAccent(accent, thick)
     local key = accent == "undead" and thick and "jawless" or accent
     if not ns.ACCENT[key] then key = "none" end
     if ChosenAccent() == (key ~= "none" and key or nil) then return end
     BuffMePleaseCharDB.accent = key
     return "BuffMePlease to " .. ns.ACCENT[key].label
-        .. (ChosenAccent() ~= ns.accent and " after a /reload" or "")
 end
 
 ---------------------------------------------------------------------------
@@ -621,7 +595,6 @@ local HELP = {
     "/buffme accent [race | none | orc | troll | dwarf | undead | jawless] - show or change your accent",
     "/buffme say | whisper - say your lines (default) or whisper them to your target",
     "/buffme preview - sample lines in your personality (only you see them)",
-    "/buffme lines [mix | only | off] - use the generated lines (Generated.lua) with, instead of, or not at all with the hand-written ones",
     "/buffme config - open the options",
     "/buffme lock | unlock - lock button position (shift-drag always moves)",
     "/buffme reset - reset button position",
@@ -635,7 +608,6 @@ local COMMANDS = {
     say    = function() SetChannel("SAY") end,
     whisper = function() SetChannel("WHISPER") end,
     preview = function() ns.Preview() end,
-    lines   = SetLines,
     config  = OpenSettings,
     lock    = function() BuffMePleaseDB.locked = true; Print("Locked.") end,
     unlock  = function() BuffMePleaseDB.locked = false; Print("Unlocked.") end,
@@ -676,19 +648,18 @@ ev:SetScript("OnEvent", function(self, event, unit)
             thanks:SetScript("OnClick", nil)
             SlashCmdList.BUFFMEPLEASE = function() Print("Off on this character: EzMinion handles your buffs.") end
             self:UnregisterAllEvents()
-            LoadVoices(false)
+            ns.VOICES = nil -- nothing to say on this character
             return
         end
         BuffMePleaseDB = BuffMePleaseDB or {}
         if BuffMePleaseDB.locked == nil then BuffMePleaseDB.locked = true end
         BuffMePleaseDB.channel = BuffMePleaseDB.channel or "SAY"
-        BuffMePleaseDB.lines = BuffMePleaseDB.lines or "mix"
+        BuffMePleaseDB.lines = nil -- the old /buffme lines setting, gone with Generated.lua
         BuffMePleaseCharDB = BuffMePleaseCharDB or {}
         -- First login: borrow the personality this character already has in Campfire Tales, if any.
         local campfire = CampfireTalesForeverChar and CampfireTalesForeverChar.persona
         BuffMePleaseCharDB.persona = BuffMePleaseCharDB.persona or (ns.PERSONA[campfire] and campfire) or ns.DEFAULT_PERSONA
         BuffMePleaseCharDB.accent = ns.ACCENT[BuffMePleaseCharDB.accent] and BuffMePleaseCharDB.accent or ns.DEFAULT_ACCENT
-        LoadVoices(true)
         if EzAccentAPI then EzAccentAPI.OnAccentChanged(FromEzAccent) end
         ApplyPosition()
         ns.BuildSettings()

@@ -2,7 +2,10 @@
 
 ## Unreleased
 
-- **Follows EzAccent.** With EzAccent loaded, changing your accent there (`/acc accent`, `/acc thick` or its options page) sets Buff Me Please's to the same one (undead thick is jawless), heard after a `/reload` as usual. `/buffme accent` and the options page still change Buff Me Please's alone.
+- **Accents said live.** Every line is now said in your accent as it goes out, with the same rules EzAccent speaks with, instead of coming from a separate accented copy of each line. A new accent is heard on the next line, no `/reload` needed, and the addon is much lighter (about 65 KB of accent engine instead of five 45 KB files of accented lines). Your target's name and the buff are never respelled, and a woman hears a dwarf's "lad" as "lass". Orc got richer at the same time: more Orcish (Throm-ka, Dabu, Aka'Magosh), clipped sentences and fewer slips.
+- **New personality: Master.** Everyone is a servant, and everything belongs to them: "Bob Smith, you should have given me Arcane Intellect an hour ago!" 46 lines like the others.
+- **Generated lines retired.** `/buffme lines`, `Generated.lua` and the local-LLM tools that wrote it (`tools/generate.py`, `tools/new_persona.py`, `tools/rules_accents.py`) are gone; the lines worth keeping are in `Voices.lua`.
+- **Follows EzAccent.** With EzAccent loaded, changing your accent there (`/acc accent`, `/acc thick` or its options page) sets Buff Me Please's to the same one (undead thick is jawless), heard on the next line. `/buffme accent` and the options page still change Buff Me Please's alone.
 
 ## v1.3.0
 

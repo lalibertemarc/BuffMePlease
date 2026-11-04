@@ -19,17 +19,17 @@ ns.PERSONAS = {
     { key = "charming", label = "Charming", desc = "A shameless flirt. Every buff is a little romance." },
     { key = "devout", label = "Devout", desc = "Pious and earnest. Every buff is a blessing, and every blessing a prayer answered." },
     { key = "mercenary", label = "Mercenary", desc = "All business. Haggles over buffs like a goblin over gold." },
+    { key = "master", label = "Master", desc = "Everyone is a servant, and everything belongs to them. The buff was due an hour ago." },
     { key = "mixed", label = "A bit of everything", desc = "No single mood: every line comes in a different voice." },
 }
 ns.PERSONA = {}
 for _, p in ipairs(ns.PERSONAS) do ns.PERSONA[p.key] = p end
 ns.DEFAULT_PERSONA = "cheerful"
 
--- Accents: orcs, trolls and dwarves say the same lines in their own accent (Voices<Accent>.lua, one
--- variant for every line in Voices.lua, same order); everyone else speaks plainly. Your race picks it
--- unless the character chose another (BuffMePleaseCharDB.accent, a key below; /buffme accent or the options).
--- The two undead voices (VoicesUndead.lua, VoicesJawless.lua, made by tools/rules_accents.py) are never
--- picked by race, only chosen.
+-- Accents: Accent.lua (EzAccent's engine) says every line in Voices.lua live, in the accent of your race
+-- (orcs, trolls and dwarves; everyone else speaks plainly) unless the character chose another
+-- (BuffMePleaseCharDB.accent, a key below; /buffme accent or the options). The two undead voices are never picked
+-- by race, only chosen.
 -- UnitRace's file name -> accent.
 ns.RACE_ACCENT = { Orc = "orc", Troll = "troll", Dwarf = "dwarf" }
 -- Accent choices, in menu order.
@@ -45,24 +45,19 @@ ns.ACCENTS = {
 ns.ACCENT = {}
 for _, a in ipairs(ns.ACCENTS) do ns.ACCENT[a.key] = a end
 ns.DEFAULT_ACCENT = "race"
--- Filled by the Voices<Accent>.lua files: accent -> same shape as ns.VOICES. At login your accent
--- replaces ns.VOICES and the rest are dropped (Core.lua LoadVoices).
-ns.ACCENT_VOICES = {}
--- Filled by Generated.lua when it exists (tools/generate.py, a local LLM; your install only): accent or
--- "plain" -> same shape as ns.VOICES. Used with the lines above per BuffMePleaseDB.lines (/buffme lines
--- mix | only | off); only your accent's set (and the plain one, for what it lacks) is kept at login.
--- ns.CUSTOM_PERSONAS: personalities of your own (tools/new_persona.py), same shape as ns.PERSONAS; Core.lua
--- lists them before "mixed". Their lines are only in ns.GENERATED.
-ns.GENERATED = nil
-ns.CUSTOM_PERSONAS = nil
 
 -- Lines use {name} (target's full name), {buff} (buff name, asks and refreshes), and {me}/{my}: you
--- alone, or your whole party or raid when you're in one ("give us Arcane Intellect"). Dwarf lines also
--- use {lad}: "lad" or "lass" from your target's sex (UnitSex), "friend" when it's unknown.
+-- alone, or your whole party or raid when you're in one ("give us Arcane Intellect").
 ns.ME = { solo = "me", group = "us" }
 ns.MY = { solo = "my", group = "our" }
-ns.LAD = { [2] = "lad", [3] = "lass" }
-ns.LAD_UNKNOWN = "friend"
+-- A woman hears the accent's own address words in her form (dwarf "lad" -> "lass", troll "bruddah" -> "sistah"),
+-- unless the plain line already has one of the typed words (as EzAccent does).
+ns.TO_HER = {
+    { he = "lad", she = "lass", typed = { "lad" } },
+    { he = "bruddah", she = "sistah", typed = { "brother", "bruddah" } },
+}
+-- Longest chat line: past it, the plain line is said instead of the accent's.
+ns.MAX_CHAT = 255
 
 -- key -> ranks of the buff and of its group version as { spellId, level learned }, lowest rank first
 -- (same IDs and levels in Forever as in Classic Era). Any of them on you counts as given. A group rank is as
