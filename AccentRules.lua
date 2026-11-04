@@ -616,16 +616,24 @@ ns.WORDS.orc_thick = {
     { phrases = { "i'm", "i am", "i've", "i'd", "i was", "i" }, out = "me" },
     { phrases = { "do you", "did you", "are you", "were you", "will you", "can you", "could you", "would you", "should you" }, out = "you" },
     { phrases = { "you're", "you are", "you were" }, out = "you" },
+    { phrases = { "we're", "we are", "we were" }, out = "we" },
+    { phrases = { "they're", "they are", "they were" }, out = "they" },
+    { phrases = { "it's", "it is", "it was" }, out = "it" },
+    { phrases = { "he's", "he is", "he was" }, out = "he" },
+    { phrases = { "she's", "she is", "she was" }, out = "she" },
     { phrases = { "going to", "gonna" }, out = "go" },
     { phrases = { "want to", "wanna" }, out = "want" },
     { phrases = { "need to" }, out = "need" },
+    { phrases = { "should have" }, keep = true },
+    { phrases = { "should've" }, out = "should have" },
     { phrases = { "will have to", "have to", "has to", "got to", "ought to", "should" }, out = "must" },
-    { phrases = { "is", "are", "am", "was", "were" }, out = "", after = "word" },
     { phrases = { "don't", "do not", "doesn't", "does not", "isn't", "is not", "aren't", "are not", "wasn't", "was not", "didn't", "did not" }, out = "no" },
     { phrases = { "some" }, out = "" },
     { phrases = { "and" }, out = "." },
     { phrases = { "but" }, out = ". But" },
     { phrases = { "my friend", "friend" }, out = "friend" },
+    { phrases = { "a", "an" }, out = "", ahead = "brace" },
+    { phrases = { "an hour", "a moment", "a while", "a minute", "a day", "a week", "a year", "a bit", "a few", "a lot", "a little", "a long time" }, keep = true },
     { phrases = { "the", "a", "an" }, out = "" },
     { phrases = { "very", "really", "terribly" }, out = "much" },
     { phrases = { "my" }, out = { "me", "my" } },
@@ -809,7 +817,7 @@ ns.TEST = {
 ns.ORC_CLOSERS = { thanks = { "Aka'Magosh.", "The ancestors see you.", "Zug zug." }, fight = { "Lok'tar ogar!", "Gol'kosh!", "Blood and thunder!", "For the Horde!" }, gloom = { "Bah.", "Hrmph.", "No honor in that." }, ask = { "Dabu?", "Zug zug?", "Yes?" }, any = { "Lok'tar!", "Zug zug.", "Dabu." } }
 ns.ORC_CLOSER_CHANCE = { light = 0.35, thick = 0.5 }
 ns.ORC_GREETINGS = { "Throm-ka.", "Throm-ka!" }
-ns.TROLL_CLOSERS = { thanks = { "Good juju.", "Da loa bless ya." }, fight = { "Da spirits be wit' us.", "Bwonsamdi be waitin' for dem." }, gloom = { "Bad mojo.", "Da spirits don' like it." }, any = { "Da loa be watchin'.", "Da spirits be tellin' me so.", "Dat be strong juju.", "Stay away from da voodoo." } }
-ns.TROLL_CLOSER_CHANCE = 0.45
+ns.TROLL_CLOSERS = { thanks = { "Good juju.", "Da loa bless ya." }, fight = { "Da spirits be wit' us.", "Bwonsamdi be waitin' for dem." }, gloom = { "Bad mojo.", "Da spirits don' like it." }, any = { "Da loa be watchin'.", "Da spirits be tellin' me so.", "Dat be strong juju." } }
+ns.TROLL_CLOSER_CHANCE = 0.3
 ns.DWARF_CLOSERS = { tag = ", a charaid", thanks = { "Slàinte mhath!" }, fight = { "By my beard!", "Seadh!" }, gloom = { "Mo chreach." }, any = { "Seadh.", "So it is." } }
 ns.DWARF_CLOSER_CHANCE = 0.5
