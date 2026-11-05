@@ -218,6 +218,13 @@ end
 
 -- 'Would you cast X on me?' -> 'cast X on me.': orcs don't ask.
 local MODALS = { "would", "could", "can", "will" }
+-- Verbs after "would you" that ask what someone wants instead of telling them to do something (rules.py ASKING).
+local ASKING = { "mind", "like", "want", "care", "prefer", "rather" }
+local function Asking(low, at)
+    for _, w in ipairs(ASKING) do
+        if low:find("^" .. w .. "%f[^%w_]", at) then return true end
+    end
+end
 local function OrcRequests(line)
     local low, out, pos = line:lower(), {}, 1
     while true do
@@ -227,11 +234,11 @@ local function OrcRequests(line)
             if s and (not at or s < at) then at, youEnd = s, e end
         end
         if not at then break end
-        -- "Would you mind...?" stays a question.
+        -- "Would you mind/like/want...?" stays a question.
         local s, e, c1, c2 = low:find("^ please%s+()[^.!?]*()%?", youEnd + 1)
-        if s and low:find("^mind%f[^%w_]", c1) then s = nil end
+        if s and Asking(low, c1) then s = nil end
         if not s then s, e, c1, c2 = low:find("^%s+()[^.!?]*()%?", youEnd + 1) end
-        if s and low:find("^mind%f[^%w_]", c1) then s = nil end
+        if s and Asking(low, c1) then s = nil end
         if s then
             out[#out + 1] = line:sub(pos, at - 1) .. line:sub(c1, c2 - 1) .. "."
             pos = e + 1
