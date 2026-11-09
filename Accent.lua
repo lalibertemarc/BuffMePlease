@@ -167,6 +167,17 @@ local function TrollTh(line)
     return (line:gsub("%f[%w_'{]th(%l)", "t%1"))
 end
 
+-- Thick tauren take their time: one comma (not right before a {placeholder}) becomes "... ".
+local function Pause(line)
+    local commas = {}
+    for s, e in line:gmatch("(),%s+()") do
+        if line:sub(e, e) ~= "{" then commas[#commas + 1] = { s, e } end
+    end
+    if #commas == 0 then return line end
+    local c = Pick(commas)
+    return line:sub(1, c[1] - 1) .. "... " .. line:sub(c[2])
+end
+
 -- gsub until nothing changes: stands in for a repeated group, (?:...)+
 local function Repeat(line, pattern, repl)
     local n
@@ -401,11 +412,12 @@ local function Parts(accent, line, thick)
     line = SwapWords(line, Rules(accent, thick))
     if accent == "troll" or accent == "dwarf" then line = DropGs(line) end
     if accent == "troll" then line = TrollTh(line) end
+    if accent == "tauren" and thick and random() < ns.PAUSE_CHANCE then line = Pause(line) end
     local p = { core = EndWithStop(Tidy(line)), tidy = true }
 
     local T = ns.TEST
     local tags = ns.TAGS[accent]
-    if #tags > 0 and not Has(p.core, T.TAGGED)
+    if #tags > 0 and not Has(p.core, T.TAGGED) and not (accent == "tauren" and Has(p.core, T.FRIEND))
             and random() < (thick and ns.TAG_CHANCE_THICK or ns.TAG_CHANCE)[accent] then
         p.tagged = AddTag(p.core, Pick(tags))
     end
@@ -424,6 +436,10 @@ local function Parts(accent, line, thick)
             p.closer = Pick(C[(Has(said, T.THANKS) or Has(said, T.DRINK)) and "thanks" or Has(said, T.FIGHT) and "fight"
                               or Has(said, T.GLOOM) and "gloom" or "any"])
         end
+    elseif accent == "tauren" and not said:find("%?$") and not Has(said, T.TAUREN)
+            and random() < ns.TAUREN_CLOSER_CHANCE[thick and "thick" or "light"] then
+        p.closer = Pick(ns.TAUREN_CLOSERS[thick and "thick" or "light"][Has(said, T.THANKS) and "thanks"
+                        or Has(said, T.FIGHT) and "fight" or Has(said, T.GLOOM) and "gloom" or "any"])
     end
     local openers = (thick and ns.THICK_OPENERS or ns.OPENERS)[accent]
     local list = openers.list

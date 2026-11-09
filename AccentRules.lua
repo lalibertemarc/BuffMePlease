@@ -752,6 +752,102 @@ ns.WORDS.orc_pre = {
     { phrases = { "are winning" }, out = "win" },
     { phrases = { "are standing" }, out = "stand" },
 }
+ns.WORDS.tauren = {
+    { phrases = { "thank you so much", "thank you very much", "thanks so much", "thanks a lot", "thanks a bunch", "many thanks" }, out = { "You honor me", "My thanks" }, after = "start", ahead = "stop" },
+    { phrases = { "thank you", "thanks" }, out = { "My thanks", "I thank you" }, chance = 0.5, after = "start", ahead = "stop" },
+    { phrases = { "well hello", "hello there", "hi there", "hey there", "hello", "hi", "hey", "greetings" }, out = { "Greetings", "Well met", "Peace" }, after = "start", ahead = "stop" },
+    { phrases = { "goodbye", "farewell", "bye", "see you later", "see ya" }, out = { "Walk with the Earth Mother", "Earth Mother watch over you" }, after = "start", ahead = "stop" },
+    { phrases = { "good luck" }, out = "May the winds be at your back", after = "start", ahead = "stop" },
+    { phrases = { "hurry up", "hurry" }, out = "Make haste", after = "start", ahead = "stop" },
+    { phrases = { "oh my god", "oh my gosh", "my god", "good heavens", "goodness me", "goodness", "by the light", "oh my" }, out = "by the Earth Mother" },
+    { phrases = { "gonna" }, out = "going to" },
+    { phrases = { "wanna" }, out = "want to" },
+    { phrases = { "gotta" }, out = "must" },
+    { phrases = { "y'all" }, out = "all of you" },
+    { phrases = { "let's" }, out = "let us" },
+    { phrases = { "i've got" }, out = "I have" },
+    { phrases = { "you've got" }, out = "you have" },
+    { phrases = { "we've got" }, out = "we have" },
+    { phrases = { "they've got" }, out = "they have" },
+    { phrases = { "it's been" }, out = "it has been" },
+    { phrases = { "that's been" }, out = "that has been" },
+    { phrases = { "he's been" }, out = "he has been" },
+    { phrases = { "she's been" }, out = "she has been" },
+    { phrases = { "i'm" }, out = "I am" },
+    { phrases = { "you're" }, out = "you are" },
+    { phrases = { "we're" }, out = "we are" },
+    { phrases = { "they're" }, out = "they are" },
+    { phrases = { "i've" }, out = "I have" },
+    { phrases = { "you've" }, out = "you have" },
+    { phrases = { "we've" }, out = "we have" },
+    { phrases = { "they've" }, out = "they have" },
+    { phrases = { "i'll" }, out = "I will" },
+    { phrases = { "you'll" }, out = "you will" },
+    { phrases = { "we'll" }, out = "we will" },
+    { phrases = { "they'll" }, out = "they will" },
+    { phrases = { "i'd" }, out = "I would" },
+    { phrases = { "you'd" }, out = "you would" },
+    { phrases = { "we'd" }, out = "we would" },
+    { phrases = { "they'd" }, out = "they would" },
+    { phrases = { "don't" }, out = "do not" },
+    { phrases = { "doesn't" }, out = "does not" },
+    { phrases = { "isn't", "ain't" }, out = "is not" },
+    { phrases = { "can't" }, out = "cannot" },
+    { phrases = { "won't" }, out = "will not" },
+    { phrases = { "didn't" }, out = "did not" },
+    { phrases = { "aren't" }, out = "are not" },
+    { phrases = { "wasn't" }, out = "was not" },
+    { phrases = { "weren't" }, out = "were not" },
+    { phrases = { "haven't" }, out = "have not" },
+    { phrases = { "hasn't" }, out = "has not" },
+    { phrases = { "wouldn't" }, out = "would not" },
+    { phrases = { "couldn't" }, out = "could not" },
+    { phrases = { "shouldn't" }, out = "should not" },
+    { phrases = { "it's" }, out = "it is" },
+    { phrases = { "that's" }, out = "that is" },
+    { phrases = { "there's" }, out = "there is" },
+    { phrases = { "here's" }, out = "here is" },
+    { phrases = { "what's" }, out = "what is" },
+    { phrases = { "who's" }, out = "who is" },
+    { phrases = { "he's" }, out = "he is" },
+    { phrases = { "she's" }, out = "she is" },
+    { phrases = { "that'll" }, out = "that will" },
+    { phrases = { "it'll" }, out = "it will" },
+    { phrases = { "years" }, out = "winters" },
+    { phrases = { "months" }, out = "moons" },
+    { phrases = { "my family" }, out = "my tribe" },
+    { phrases = { "family" }, out = "tribe" },
+    { phrases = { "horses" }, out = "kodos" },
+    { phrases = { "horse" }, out = "kodo" },
+    { phrases = { "in town" }, out = "in Thunder Bluff" },
+    { phrases = { "back home" }, out = "back in Mulgore" },
+    { phrases = { "they say" }, out = "the elders say", chance = 0.4 },
+    { phrases = { "awesome", "amazing" }, out = "wondrous" },
+    { phrases = { "guys" }, out = "friends" },
+    { phrases = { "dude", "buddy", "pal", "mate", "bro" }, out = "friend" },
+}
+ns.WORDS.tauren_thick = {
+    { phrases = { "hello and thank you", "hello and thanks", "hi and thanks" }, out = "Nechi owachi", after = "start" },
+    { phrases = { "thank you so much", "thank you very much", "thanks so much", "thanks a lot", "thanks a bunch", "many thanks", "thank you", "thanks" }, out = { "Nechi owachi", "You honor me" }, after = "start", ahead = "stop" },
+    { phrases = { "goodbye", "farewell", "bye", "see you later", "see ya", "take care" }, out = { "Ish-ne-alo por-ah", "Walk with the Earth Mother" }, after = "start", ahead = "stop" },
+    { phrases = { "so be it", "so it will be", "it will be so", "amen", "okay", "ok", "alright", "sure", "very well", "agreed" }, out = { "Theia-shoush ahmen", "So it will be" }, after = "start", ahead = "stop" },
+    { phrases = { "listen" }, out = "Hear me", after = "start", ahead = "stop" },
+    { phrases = { "the sun" }, out = "An'she" },
+    { phrases = { "the moon" }, out = "Mu'sha" },
+    { phrases = { "sunlight" }, out = "An'she's light" },
+    { phrases = { "moonlight" }, out = "Mu'sha's light" },
+    { phrases = { "see you tomorrow", "until tomorrow" }, out = "until the next sun" },
+    { phrases = { "today" }, out = "this sun" },
+    { phrases = { "tonight" }, out = "this night" },
+    { phrases = { "tomorrow" }, out = "the next sun" },
+    { phrases = { "yesterday" }, out = "the last sun" },
+    { phrases = { "days" }, out = "suns" },
+    { phrases = { "i think" }, out = { "I believe", "my heart tells me" } },
+    { phrases = { "they say" }, out = "the elders say" },
+    { phrases = { "really", "very" }, out = "truly", chance = 0.5 },
+    { phrases = { "quickly" }, out = "swiftly" },
+    { phrases = { "the world" }, out = "the Earth Mother's lands", chance = 0.5 },
+}
 
 -- Undead spelling swaps, in order: { from, to, ahead? = a Lua pattern that must match right after }.
 ns.LOCKED = {
@@ -796,24 +892,26 @@ ns.CLENCHES = { "nngh", "mmf", "hkk", "tss" }
 ns.CLENCH_CHANCE = 0.35
 ns.STUTTER_CHANCE = 0.3
 
-ns.TAGS = { troll = { ", mon" }, dwarf = { ", lad" }, orc = {  } }
-ns.TAG_CHANCE = { troll = 0.55, dwarf = 0.45, orc = 0 }
-ns.TAG_CHANCE_THICK = { troll = 0.65, dwarf = 0.6, orc = 0 }
-ns.OPENERS = { troll = { list = { "Ey!", "Ooh!", "Heh." }, chance = 0.15 }, dwarf = { list = { "Och!", "Ach!", "Och aye!" }, chance = 0.2 }, orc = { list = { "Hrm.", "Hmph.", "Throm-ka." }, chance = 0.2 } }
-ns.THICK_OPENERS = { troll = { list = { "Ey!", "Ooh!", "Heh heh." }, chance = 0.35 }, dwarf = { list = { "Och!", "Ach!", "Crivvens!", "Och aye!" }, chance = 0.3 }, orc = { list = { "Hrm.", "Bah.", "Grah!", "Hrmph.", "Throm-ka!" }, chance = 0.4 } }
+ns.TAGS = { troll = { ", mon" }, dwarf = { ", lad" }, orc = {  }, tauren = { ", little one" } }
+ns.TAG_CHANCE = { troll = 0.55, dwarf = 0.45, orc = 0, tauren = 0 }
+ns.TAG_CHANCE_THICK = { troll = 0.65, dwarf = 0.6, orc = 0, tauren = 0.2 }
+ns.OPENERS = { troll = { list = { "Ey!", "Ooh!", "Heh." }, chance = 0.15 }, dwarf = { list = { "Och!", "Ach!", "Och aye!" }, chance = 0.2 }, orc = { list = { "Hrm.", "Hmph.", "Throm-ka." }, chance = 0.2 }, tauren = { list = { "Hmm.", "Ahh." }, chance = 0.15 } }
+ns.THICK_OPENERS = { troll = { list = { "Ey!", "Ooh!", "Heh heh." }, chance = 0.35 }, dwarf = { list = { "Och!", "Ach!", "Crivvens!", "Och aye!" }, chance = 0.3 }, orc = { list = { "Hrm.", "Bah.", "Grah!", "Hrmph.", "Throm-ka!" }, chance = 0.4 }, tauren = { list = { "Hmm.", "Ahh.", "Hmmm." }, chance = 0.35 } }
 
 -- Tests on a line: words = whole words ("fad*" = starting with fad), subs = anywhere; both ignore case.
 ns.TEST = {
-    THANKS = { words = { "thank", "thanks", "tank", "tanks", "aka'magosh", "tapadh", "taing" } },
+    THANKS = { words = { "thank", "thanks", "tank", "tanks", "aka'magosh", "tapadh", "taing", "nechi" } },
     FIGHT = { words = { "fight", "fights", "battle", "war", "kill", "enemy", "enemies", "charge", "blood", "victory", "horde", "attack", "stramash" } },
     GLOOM = { words = { "no", "not", "nae", "ain't", "fad*", "bad", "die", "dead", "death", "regret", "without", "witout", "lost", "curse*", "alas" } },
     ORCISH = { subs = { "aka'magosh", "dabu", "throm-ka", "lok'", "zug zug", "swobu", "kagh", "gol'kosh", "mak'gora", "ancestors", "blood and thunder" } },
     GAELIC = { subs = { "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù", "a charaid", "seadh" } },
-    TAGGED = { words = { "mon", "lad", "charaid" } },
+    TAGGED = { words = { "mon", "lad", "charaid", "little one" } },
     MOJO = { subs = { "loa", "juju", "mojo", "spirits", "bwonsamdi", "voodoo" } },
     DRINK = { subs = { "pint", "drink", "ale" } },
     GREETED = { subs = { "throm-ka" } },
     OPENED = { subs = { "och", "ach", "ey", "hey", "ooh", "hrm", "bah", "throm", "hm", "mm", "um", "oh", "ah", "aww", "psst", "shh", "oops", "hoy" } },
+    TAUREN = { subs = { "earth mother", "an'she", "mu'sha", "ish-ne-alo", "nechi", "theia-shoush", "ancestors", "spirits", "you honor", "the winds", "elders" } },
+    FRIEND = { words = { "friend", "friends" } },
 }
 
 ns.ORC_CLOSERS = { thanks = { "Aka'Magosh.", "The ancestors see you.", "Zug zug." }, fight = { "Lok'tar ogar!", "Gol'kosh!", "Blood and thunder!", "For the Horde!" }, gloom = { "Bah.", "Hrmph.", "No honor in that." }, ask = { "Dabu?", "Zug zug?", "Yes?" }, any = { "Lok'tar!", "Zug zug.", "Dabu." } }
@@ -823,3 +921,7 @@ ns.TROLL_CLOSERS = { thanks = { "Good juju.", "Da loa bless ya." }, fight = { "D
 ns.TROLL_CLOSER_CHANCE = 0.3
 ns.DWARF_CLOSERS = { tag = ", a charaid", thanks = { "Slàinte mhath!" }, fight = { "By my beard!", "Seadh!" }, gloom = { "Mo chreach." }, any = { "Seadh.", "So it is." } }
 ns.DWARF_CLOSER_CHANCE = 0.5
+ns.TAUREN_CLOSERS = { light = { thanks = { "The Earth Mother smiles on you.", "You honor me." }, fight = { "May the ancestors guide your hand.", "The Earth Mother is with us." }, gloom = { "The winds will turn.", "Even the plains know winter." }, any = { "Walk with the Earth Mother.", "The winds have spoken." } }, thick = { thanks = { "May An'she light your path.", "Nechi owachi." }, fight = { "Let the thunder answer!", "The ancestors ride with us." }, gloom = { "Mu'sha will rise again.", "The spirits are quiet." }, any = { "Theia-shoush ahmen.", "Ish-ne-alo por-ah.", "The winds have spoken." } } }
+ns.TAUREN_CLOSER_CHANCE = { light = 0.3, thick = 0.5 }
+-- Thick tauren only: how often one comma becomes a pause (...).
+ns.PAUSE_CHANCE = 0.5
