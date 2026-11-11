@@ -781,7 +781,7 @@ ns.WORDS.tauren = {
     { phrases = { "that's been" }, out = "that has been" },
     { phrases = { "he's been" }, out = "he has been" },
     { phrases = { "she's been" }, out = "she has been" },
-    { phrases = { "isn't it" }, out = "is it not" },
+    { phrases = { "isn't it", "ain't it" }, out = "is it not" },
     { phrases = { "wasn't it" }, out = "was it not" },
     { phrases = { "aren't you" }, out = "are you not" },
     { phrases = { "aren't they" }, out = "are they not" },
@@ -898,10 +898,14 @@ ns.WORDS.tauren = {
     { phrases = { "dude", "buddy", "pal", "mate", "bro" }, out = "friend" },
 }
 ns.WORDS.tauren_thick = {
+    { phrases = { "let's go then", "let us go then" }, out = { "skoden", "skoden", "let us go then" }, after = "start", ahead = "stop" },
+    { phrases = { "let's get going", "let's go", "let us go" }, out = { "skoden", "skoden", "let us go" }, after = "start", ahead = "stop" },
+    { phrases = { "let's do this", "let us do this", "let's do it", "let us do it" }, out = { "stoodis", "stoodis", "let us do this" }, after = "start", ahead = "stop" },
+    { phrases = { "isn't it", "ain't it" }, out = { "enit", "is it not" }, ahead = "ask" },
     { phrases = { "hello and thank you", "hello and thanks", "hi and thanks" }, out = "Nechi owachi", after = "start" },
     { phrases = { "thank you so much", "thank you very much", "thanks so much", "thanks a lot", "thanks a bunch", "many thanks", "thank you", "thanks" }, out = { "Nechi owachi", "You honor me" }, after = "start", ahead = "stop" },
     { phrases = { "goodbye", "farewell", "bye", "see you later", "see ya", "take care" }, out = { "Ish-ne-alo por-ah", "Walk with the Earth Mother" }, after = "start", ahead = "stop" },
-    { phrases = { "so be it", "so it will be", "it will be so", "amen", "okay", "ok", "alright", "sure", "very well", "agreed" }, out = { "Theia-shoush ahmen", "So it will be" }, after = "start", ahead = "stop" },
+    { phrases = { "so be it", "so it will be", "it will be so", "amen", "okay", "ok", "alright", "sure", "very well", "agreed" }, out = { "Theia-shoush ahmen", "So it will be", "Aho" }, after = "start", ahead = "stop" },
     { phrases = { "listen" }, out = "Hear me", after = "start", ahead = "stop" },
     { phrases = { "the sun" }, out = "An'she" },
     { phrases = { "the moon" }, out = "Mu'sha" },
@@ -981,7 +985,7 @@ ns.TEST = {
     DRINK = { subs = { "pint", "drink", "ale" } },
     GREETED = { subs = { "throm-ka" } },
     OPENED = { subs = { "och", "ach", "ey", "hey", "ooh", "hrm", "bah", "throm", "hm", "mm", "um", "oh", "ah", "aww", "psst", "shh", "oops", "hoy" } },
-    TAUREN = { subs = { "earth mother", "an'she", "mu'sha", "ish-ne-alo", "nechi", "theia-shoush", "ancestors", "spirits", "you honor", "the winds", "elders" } },
+    TAUREN = { subs = { "earth mother", "an'she", "mu'sha", "ish-ne-alo", "nechi", "theia-shoush", "ancestors", "spirits", "you honor", "the winds", "elders", "aho" } },
     FRIEND = { words = { "friend", "friends" } },
 }
 
@@ -992,7 +996,7 @@ ns.TROLL_CLOSERS = { thanks = { "Good juju.", "Da loa bless ya." }, fight = { "D
 ns.TROLL_CLOSER_CHANCE = 0.3
 ns.DWARF_CLOSERS = { tag = ", a charaid", thanks = { "Slàinte mhath!" }, fight = { "By my beard!", "Seadh!" }, gloom = { "Mo chreach." }, any = { "Seadh.", "So it is." } }
 ns.DWARF_CLOSER_CHANCE = 0.5
-ns.TAUREN_CLOSERS = { light = { thanks = { "The Earth Mother smiles on you.", "You honor me." }, fight = { "May the ancestors guide your hand.", "The Earth Mother is with us." }, gloom = { "The winds will turn.", "Even the plains know winter." }, any = { "Walk with the Earth Mother.", "The winds have spoken." } }, thick = { thanks = { "May An'she light your path.", "Nechi owachi." }, fight = { "Let the thunder answer!", "The ancestors ride with us." }, gloom = { "Mu'sha will rise again.", "The spirits are quiet." }, any = { "Theia-shoush ahmen.", "Ish-ne-alo por-ah.", "The winds have spoken." } } }
+ns.TAUREN_CLOSERS = { light = { thanks = { "The Earth Mother smiles on you.", "You honor me." }, fight = { "May the ancestors guide your hand.", "The Earth Mother is with us." }, gloom = { "The winds will turn.", "Even the plains know winter." }, any = { "Walk with the Earth Mother.", "The winds have spoken." } }, thick = { thanks = { "May An'she light your path.", "Nechi owachi.", "Aho." }, fight = { "Let the thunder answer!", "The ancestors ride with us." }, gloom = { "Mu'sha will rise again.", "The spirits are quiet." }, any = { "Theia-shoush ahmen.", "Ish-ne-alo por-ah.", "The winds have spoken.", "Aho." } } }
 ns.TAUREN_CLOSER_CHANCE = { light = 0.3, thick = 0.5 }
 -- Thick tauren only: how often one comma becomes a pause (...).
 ns.PAUSE_CHANCE = 0.5
