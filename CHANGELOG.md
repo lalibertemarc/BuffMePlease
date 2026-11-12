@@ -1,7 +1,8 @@
 # Buff Me Please
 
-## Unreleased
+## v1.4.1
 
+- **Thick dwarves** have more ways to open and close a line ("Hoots!", "Dinnae fash.", "For Ironforge!", "Dour times.") and use each one less often, so long chats repeat less. They also no longer tack a remark onto a question, or add Gaelic to a line that already has some.
 - **Orcs still offer.** In the orc accent, "Would you like...?" lines stay questions ("You want...?") instead of turning into orders.
 
 ## v1.4.0
