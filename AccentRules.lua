@@ -973,7 +973,7 @@ ns.TAGS = { troll = { ", mon" }, dwarf = { ", lad" }, orc = {  }, tauren = { ", 
 ns.TAG_CHANCE = { troll = 0.55, dwarf = 0.45, orc = 0, tauren = 0 }
 ns.TAG_CHANCE_THICK = { troll = 0.65, dwarf = 0.35, orc = 0, tauren = 0.2 }
 ns.OPENERS = { troll = { list = { "Ey!", "Ooh!", "Heh." }, chance = 0.15 }, dwarf = { list = { "Och!", "Ach!", "Och aye!" }, chance = 0.2 }, orc = { list = { "Hrm.", "Hmph.", "Throm-ka." }, chance = 0.2 }, tauren = { list = { "Hmm.", "Ahh." }, chance = 0.15 } }
-ns.THICK_OPENERS = { troll = { list = { "Ey!", "Ooh!", "Heh heh." }, chance = 0.35 }, dwarf = { list = { "Och!", "Ach!", "Crivvens!", "Och aye!", "Hoots!", "Haud on!", "Weel now.", "Wheesht!" }, chance = 0.2 }, orc = { list = { "Hrm.", "Bah.", "Grah!", "Hrmph.", "Throm-ka!" }, chance = 0.4 }, tauren = { list = { "Hmm.", "Ahh.", "Hmmm." }, chance = 0.35 } }
+ns.THICK_OPENERS = { troll = { list = { "Ey!", "Ooh!", "Heh heh." }, chance = 0.35 }, dwarf = { list = { "Och!", "Ach!", "Crivvens!", "Och aye!", "Hoots!", "Weel now." }, chance = 0.2 }, orc = { list = { "Hrm.", "Bah.", "Grah!", "Hrmph.", "Throm-ka!" }, chance = 0.4 }, tauren = { list = { "Hmm.", "Ahh.", "Hmmm." }, chance = 0.35 } }
 
 -- Tests on a line: words = whole words ("fad*" = starting with fad), subs = anywhere; both ignore case.
 ns.TEST = {
@@ -981,7 +981,7 @@ ns.TEST = {
     FIGHT = { words = { "fight", "fights", "battle", "war", "kill", "enemy", "enemies", "charge", "blood", "victory", "horde", "attack", "stramash" } },
     GLOOM = { words = { "no", "not", "nae", "ain't", "fad*", "bad", "die", "dead", "death", "regret", "without", "witout", "lost", "curse*", "alas" } },
     ORCISH = { subs = { "aka'magosh", "dabu", "throm-ka", "lok'", "zug zug", "swobu", "kagh", "gol'kosh", "mak'gora", "ancestors", "blood and thunder" } },
-    GAELIC = { subs = { "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù", "charaid", "seadh" } },
+    GAELIC = { subs = { "à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù", "charaid", "seadh", "tapadh", "ciamar", "beannachd", "chreach" } },
     TAGGED = { words = { "mon", "lad", "charaid", "little one" } },
     MOJO = { subs = { "loa", "juju", "mojo", "spirits", "bwonsamdi", "voodoo" } },
     DRINK = { subs = { "pint", "drink", "ale" } },
@@ -996,7 +996,7 @@ ns.ORC_CLOSER_CHANCE = { light = 0.35, thick = 0.5 }
 ns.ORC_GREETINGS = { "Throm-ka.", "Throm-ka!" }
 ns.TROLL_CLOSERS = { thanks = { "Good juju.", "Da loa bless ya." }, fight = { "Da spirits be wit' us.", "Bwonsamdi be waitin' for dem." }, gloom = { "Bad mojo.", "Da spirits don' like it." }, any = { "Da loa be watchin'.", "Da spirits be tellin' me so.", "Dat be strong juju." } }
 ns.TROLL_CLOSER_CHANCE = 0.3
-ns.DWARF_CLOSERS = { tag = ", a charaid", thanks = { "Slàinte mhath!", "Tapadh leat!", "A wee dram's yer due." }, fight = { "By my beard!", "Seadh!", "Fer Ironforge!", "Dinnae yield!" }, gloom = { "Mo chreach.", "Dour times.", "It's a sair state." }, any = { "Seadh.", "So it is.", "Nae bother.", "Dinnae fash.", "Mark ma words.", "Aye, so it goes." } }
+ns.DWARF_CLOSERS = { tag = ", a charaid", thanks = { "Slàinte mhath!", "A wee dram's yer due." }, fight = { "By my beard!", "Seadh!", "For Ironforge!", "Dinnae yield!" }, gloom = { "Mo chreach.", "Dour times.", "It's a sair state.", "Aye, so it goes." }, any = { "Seadh.", "So it is.", "Dinnae fash." } }
 ns.DWARF_CLOSER_CHANCE = 0.3
 ns.TAUREN_CLOSERS = { light = { thanks = { "The Earth Mother smiles on you.", "You honor me." }, fight = { "May the ancestors guide your hand.", "The Earth Mother is with us." }, gloom = { "The winds will turn.", "Even the plains know winter." }, any = { "Walk with the Earth Mother.", "The winds have spoken." } }, thick = { thanks = { "May An'she light your path.", "Nechi owachi.", "Aho." }, fight = { "Let the thunder answer!", "The ancestors ride with us." }, gloom = { "Mu'sha will rise again.", "The spirits are quiet." }, any = { "Theia-shoush ahmen.", "Ish-ne-alo por-ah.", "The winds have spoken.", "Aho." } } }
 ns.TAUREN_CLOSER_CHANCE = { light = 0.3, thick = 0.5 }

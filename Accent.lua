@@ -451,7 +451,7 @@ local function Parts(accent, line, thick)
         local C = ns.DWARF_CLOSERS
         if random() < 0.4 then
             p.tagged = AddTag((said:gsub(", lad", "")), C.tag)
-        else
+        elseif not said:find("%?$") then -- not "Would ye like some pie? So it is."
             p.closer = Pick(C[(Has(said, T.THANKS) or Has(said, T.DRINK)) and "thanks" or Has(said, T.FIGHT) and "fight"
                               or Has(said, T.GLOOM) and "gloom" or "any"])
         end
