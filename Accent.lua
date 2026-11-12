@@ -346,7 +346,8 @@ local function Respell(line, swaps)
 end
 
 -- rules.SOUND_AT_END, by hand: a line already ending in a gurgle or strain gets no second one.
-local SOUNDS = { "^gh+k+$", "^hh+r*k+$", "^hhh+$", "^n+gh$", "^m+f$", "^hk+$", "^nnn+$", "^sss+$" }
+local SOUNDS = { "^gh+k+$", "^hh+r*k+$", "^hhh+$", "^n+gh$", "^h?m+f$", "^hk+$", "^nnn+$", "^sss+$", "^t+s+$", "^k+t$",
+    "^k+h$", "^h?n+h$", "^m+h$", "^g?r+k$" }
 local function IsSound(word)
     if not word then return false end
     for _, p in ipairs(SOUNDS) do
@@ -361,6 +362,15 @@ local function EndsInSound(line)
     local head, tail = last:match("^([%w_]+)%-([%w_]+)$")
     if head then return IsSound(head) or IsSound(tail) end
     return IsSound(last)
+end
+
+-- rules.tuck: the sound tucked in before the line's last mark: "Huw ere yuu, mmf?"; after a full stop (or none) it
+-- trails off: "I em tired... nngh.".
+local function Tuck(line, sound)
+    local base, mark = line:match("^(.-)([.!?]+)$")
+    local word = sound:lower():gsub("%.+$", "")
+    if not base or mark == "." then return (base or line) .. "... " .. word .. "." end
+    return base .. ", " .. word .. mark
 end
 
 -- rules.drool: one of sounds at a comma (", ghk, ") or between two sentences (". Ghk. ").
@@ -417,7 +427,13 @@ local function Parts(accent, line, thick)
         if random() < (thick and ns.DROOL_CHANCE or ns.CLENCH_CHANCE) then
             line = Drool(line, thick and ns.DROOLS or ns.CLENCHES)
         end
-        return { core = line, closer = not EndsInSound(line) and Pick(thick and ns.GURGLES or ns.STRAINS) or nil }
+        local p = { core = line }
+        -- Jawless always ends on a gurgle; a locked jaw only STRAIN_CHANCE of the time, sometimes tucked in.
+        if not EndsInSound(line) and (thick or random() < ns.STRAIN_CHANCE) then
+            local sound = Pick(thick and ns.GURGLES or ns.STRAINS)
+            if not thick and random() < ns.TUCK_CHANCE then p.core = Tuck(line, sound) else p.closer = sound end
+        end
+        return p
     end
 
     if accent == "orc" then

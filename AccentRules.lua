@@ -959,7 +959,10 @@ ns.JAWLESS = {
     { from = "m", to = "ng" },
     { from = "w", to = "'", ahead = "[aeiouy]" },
 }
-ns.STRAINS = { "Nngh.", "Mmf.", "Hkk.", "Nnn.", "Hkk-hkk." }
+ns.STRAINS = { "Nngh.", "Mmf.", "Hkk.", "Nnn.", "Hkk-hkk.", "Tss.", "Hmmf.", "Kkt.", "Hnnh.", "Mmh.", "Nngh-nngh.", "Grrk.", "Kkh." }
+-- Locked jaw only: how often a line ends on a strain, and how often it's tucked in before the last mark.
+ns.STRAIN_CHANCE = 0.8
+ns.TUCK_CHANCE = 0.4
 ns.GURGLES = { "Ghhk.", "Hhrrk.", "Hhhh.", "Ghhk-hk.", "Hhkk." }
 -- Jawless only: sometimes one of these mid-line, at a comma or between sentences.
 ns.DROOLS = { "ghk", "shlrk", "hlk", "hhk", "glrk" }
