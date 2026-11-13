@@ -400,11 +400,12 @@ local function Stutter(line)
     return line:sub(1, s - 1) .. w:sub(1, 1) .. "-" .. again .. line:sub(s + 1)
 end
 
--- The odd s hisses through the teeth: jusst, thiss.
+-- The odd s hisses through the teeth: jusst, thiss (a word that already has ss is left alone).
 local function Hiss(line)
     local words = {}
     for s, w, e in line:gmatch("()([%w_]+)()") do
-        if line:sub(s - 1, s - 1) ~= "{" and line:sub(e, e) ~= "}" and w:find("s", 2, true) then
+        if line:sub(s - 1, s - 1) ~= "{" and line:sub(e, e) ~= "}" and w:find("s", 2, true)
+                and not w:find("ss", 1, true) then -- not blesssing
             words[#words + 1] = { s, e, w }
         end
     end
