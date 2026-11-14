@@ -150,11 +150,13 @@ local function Wants(class)
     return list
 end
 
--- Result: { name, class, list = { { key, have, expiring, remaining, young } }, demand = key or nil,
--- refresh, hidden, young, given }, or nil when the target isn't a friendly player. The list is empty
+-- Result: { name, class, list = { { key, have, expiring, remaining, low, young } }, demand = key or nil,
+-- refresh, hidden, young, low, given }, or nil when the target isn't a friendly player. The list is empty
 -- when their class has nothing you'd want. expiring = you have it but it's about to drop
--- (ns.REFRESH_THRESHOLD), so it's asked for again; refresh = the demand is such a buff. young = the
--- target is below the level that buff is learned at (result: that's why nothing is asked for). A buff
+-- (ns.REFRESH_THRESHOLD), so it's asked for again; refresh = the demand is such a buff. low = you're too
+-- low level for any rank of it to land on you (ns.TARGET_LEVEL_GAP), so it's never asked for (result: every
+-- buff they could give is). young = the target is below the level that buff is learned at, or than the
+-- lowest rank that lands on you (result: that's why nothing is asked for). A buff
 -- expiring at a higher rank than any the target knows isn't asked for: theirs wouldn't land. hidden =
 -- your buffs couldn't be read, so the most wanted buff is asked for. given = nothing left to ask for.
 local function Evaluate(unit)
@@ -164,23 +166,30 @@ local function Evaluate(unit)
     local _, class = UnitClass(unit)
     local level = UnitLevel(unit)
     if not level or issecret(level) or level <= 0 then level = math.huge end -- -1 means far above you
+    -- Highest rank level that lands on you.
+    local cap = UnitLevel("player") + ns.TARGET_LEVEL_GAP
 
     local have = MyBuffs()
     local r = { name = name, class = class, list = {}, hidden = have == nil }
     have = have or {}
+    local owable = 0
     for _, key in ipairs(Wants(class)) do
-        local h, best = have[key], BestRank(key, level)
-        local e = { key = key, have = h ~= nil, remaining = h and h.remaining, young = best == 0, camp = h and h.camp }
+        local h, best = have[key], BestRank(key, math.min(level, cap))
+        local low = BestRank(key, cap) == 0
+        local e = { key = key, have = h ~= nil, remaining = h and h.remaining, low = low,
+            young = not low and best == 0, camp = h and h.camp }
+        if not low then owable = owable + 1 end
         -- A camp's buff blocks theirs until it drops, so it's never asked for again early.
         e.expiring = not e.camp and e.remaining ~= nil and e.remaining <= ns.REFRESH_THRESHOLD
         local outranked = e.expiring and h.rank ~= nil and h.rank > best
         r.list[#r.list + 1] = e
         if e.young and not e.have then r.young = true end
-        if not (r.demand or e.young or outranked) and (e.expiring or not e.have) then
+        if not (r.demand or e.low or e.young or outranked) and (e.expiring or not e.have) then
             r.demand, r.refresh = key, e.expiring
         end
     end
-    r.given = not r.demand and #r.list > 0 and not r.young
+    r.low = #r.list > 0 and owable == 0
+    r.given = not r.demand and owable > 0 and not r.young
     return r
 end
 
@@ -378,6 +387,7 @@ local function Ask()
         return SayOrWarn(Line(r.refresh and "refreshes" or "asks", r.name, buff[r.demand].name, "target"), r.name, r.class)
     end
     Print((#r.list == 0 and r.name .. " has no buff you need.")
+        or (r.low and "You're too low level for anything " .. r.name .. " can give.")
         or (r.young and r.name .. " is too young to know the buff you need.")
         or ("You already have everything " .. r.name .. " can give."))
 end
@@ -570,6 +580,7 @@ local function ShowTooltip()
     for _, e in ipairs(current.list) do
         local state = (e.camp and "|cff40ff40have, from camp|r") or (e.expiring and "|cffffd000have, expiring|r")
             or (e.have and "|cff40ff40have|r")
+            or (e.low and format("|cff808080you need %d|r", buff[e.key].level - ns.TARGET_LEVEL_GAP))
             or (e.young and format("|cff808080too young (%d)|r", buff[e.key].level)) or "|cffff4040missing|r"
         GameTooltip:AddDoubleLine(buff[e.key].name, state .. FormatTime(e.remaining), 1, 1, 1)
     end
@@ -577,7 +588,8 @@ local function ShowTooltip()
     if current.demand then
         GameTooltip:AddLine((current.refresh and "Click to ask for a refresh in " or "Click to ask in ") .. ChannelText(), 1, 0.82, 0)
     else
-        GameTooltip:AddLine(current.young and "Too young to give you what you need." or "You have all they can give.", 0.6, 0.6, 0.6)
+        GameTooltip:AddLine((current.low and "You're too low level for what they can give.")
+            or (current.young and "Too young to give you what you need.") or "You have all they can give.", 0.6, 0.6, 0.6)
     end
     GameTooltip:AddLine("Right-click to change your personality (" .. ns.PERSONA[ns.PersonaKey()].label .. ")", 1, 0.82, 0)
     GameTooltip:AddLine("Key bindings: Options > Keybindings > Buff Me Please", 0.6, 0.6, 0.6)
