@@ -127,7 +127,7 @@ ns.REFRESH_THRESHOLD = ns.ERA and 120 or 1200
 
 -- A buff rank can't be cast on a target more than this many levels below the level it's learned at
 -- ("Target is too low level"), so you only ask for ranks that would land on you: a level 14 can't get
--- Divine Spirit (learned at 30). Both clients (EzMinion still applies it in Classic Era only).
+-- Divine Spirit (learned at 30). Both clients, as in EzMinion.
 ns.TARGET_LEVEL_GAP = 10
 
 -- Seconds after a line goes out before another can, so a double click or held key doesn't spam /say.
