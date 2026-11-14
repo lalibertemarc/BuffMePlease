@@ -3,6 +3,17 @@
 ## Notes: Roleplay buff begging. Ask your target for the buff their class can give you, in /say or a whisper, in your character's own voice.
 ## Author: Marc
 ## Version: @project-version@
+## Category: Roleplay
+## Category-deDE: Rollenspiel
+## Category-esES: Juego de rol
+## Category-esMX: Juego de rol
+## Category-frFR: Jeu de rôle
+## Category-itIT: Gioco di Ruolo
+## Category-koKR: 롤플레잉
+## Category-ptBR: Interpretação de Papel
+## Category-ruRU: Ролевая игра
+## Category-zhCN: 角色扮演
+## Category-zhTW: 角色扮演
 ## IconTexture: Interface\Icons\Spell_Holy_WordFortitude
 ## X-Curse-Project-ID: 1776126
 ## SavedVariables: BuffMePleaseDB
