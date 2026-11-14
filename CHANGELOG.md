@@ -1,5 +1,9 @@
 # Buff Me Please
 
+## v1.4.3
+
+- Listed under **Roleplay** in the game's AddOns list, next to other roleplay addons.
+
 ## v1.4.2
 
 - **Fixed:** a low-level character no longer asks for a buff that can't land on them. A buff can't be cast on someone more than 10 levels below the level it's learned at, so at level 14 you were asking priests for Divine Spirit (learned at 30, so you need level 20). The tooltip now shows the level you need ("you need 20"), and if nothing your target can give would land, you're told so.
