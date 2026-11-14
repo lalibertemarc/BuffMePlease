@@ -1,5 +1,11 @@
 # Buff Me Please
 
+## v1.4.2
+
+- **Fixed:** a low-level character no longer asks for a buff that can't land on them. A buff can't be cast on someone more than 10 levels below the level it's learned at, so at level 14 you were asking priests for Divine Spirit (learned at 30, so you need level 20). The tooltip now shows the level you need ("you need 20"), and if nothing your target can give would land, you're told so.
+- **Undead (locked jaw)** ends its lines more ways: more strained sounds ("Tss.", "Hmmf.", "Grrk."...), sometimes tucked in before the last mark ("Ere yuu reedy, mmf?"), and sometimes none at all, so long chats don't all end the same.
+- **Fixed:** the undead hiss no longer lands on a word that already has "ss" ("blesssing").
+
 ## v1.4.1
 
 - **Thick dwarves** have more ways to open and close a line ("Hoots!", "Dinnae fash.", "For Ironforge!", "Dour times.") and use each one less often, so long chats repeat less. They also no longer tack a remark onto a question, or add Gaelic to a line that already has some.
